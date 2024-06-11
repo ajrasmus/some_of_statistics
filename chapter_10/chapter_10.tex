@@ -1,0 +1,361 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 10 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(5)] Let $X_1,\ldots,X_n \sim \Unif(0,\theta)$ and let
+$Y = \max\{X_1,\ldots,X_n\}$ We want to test
+\[H_0 : \theta = 1/2 \text{ versus } H_1 : \theta > 1/2.\]
+The Wald test is not appropriate since $Y$ does not converge to a Normal.
+Suppose we decide to test this hypothesis by rejecting $H_0$ when $Y>c$.
+\begin{enumerate}[(a)]
+\item Find the power function.
+
+\begin{sol}
+Choose some $c \geq 0$. The rejection region is
+\[
+R = \left\{ (x_1,\ldots,x_n) : x_i > c \text{ for some } i\right\}.
+\]
+
+Hence the power function is $\beta(\theta)=\P_\theta((X_1,\ldots,X_n)\in R)$
+and this is
+\[
+\P_\theta(X_i>c \text{ for some } i) = 1 - \P_\theta(X_i<c \text{ for all } i)
+= 1 - \Pi_{i=1}^n \P_\theta(X_i < c).
+\]
+If $c\geq\theta$ then $\P_\theta(X_i < c) = 1$ for all $i$. If $c<\theta$ then
+$\P_\theta(X_i < c) = c/\theta$ for all $i$. Hence
+\[
+\beta(\theta) =
+\begin{cases}
+1-(c/\theta)^n & \theta > c \\
+0 & \theta \leq c\\
+\end{cases}
+\]
+\end{sol}
+\item What choice of $c$ will make the size of the test $.05$?
+\begin{sol}
+The size is
+\[
+\alpha = \sup_{\theta=1/2} \beta(\theta) = \beta(1/2) = 1-(2c)^n.
+\]
+So we need to solve $1-(2c)^n=0.05$, i.e. $(2c)^n = 19/20$. The solution
+is
+\[
+c=\frac{1}{2}\left(\frac{19}{20}\right)^{1/n}.
+\]
+\end{sol}
+\item In a sample of size $n=20$ with $Y=0.48$ what is the p-value? What
+conclusion about $H_0$ would you make?
+\begin{sol}
+Choosing the parameter $c$, the size is $\alpha=1-(2c)^n$ with corresponding
+rejection region
+$R_\alpha = \left\{ (x_1,\ldots,x_n) : x_i > c \text{ for some } i\right\}$.
+The p-value is
+\[
+\inf \{\alpha \in (0,1) : Y \in R_\alpha\} = \inf\{\alpha \in (0,1) : Y > c\}
+\]
+Since $\alpha$ is strictly monotonically decreasing with $c$ the p-value
+is exactly the value of $\alpha$ when $Y=c$. In other words, the p-value is
+\[\alpha=1-(2Y)^n=1-(2 \cdot 0.48)^{20} \approx 0.558.\]
+We would not reject the null hypothesis $H_0$ in this case.
+\end{sol}
+\item In a sample of size $n=20$ with $Y=0.52$ what is the p-value? What
+conclusion about $H_0$ would you make?
+\begin{sol}
+Of course we can reject $H_0$ in this case: $\theta$ is definitely
+not equal to $1/2$. Let's confirm this using the p-value.
+The p-value in this case is
+\[
+\inf\{\alpha \in (0,1) : Y > c\} =
+\inf \{\alpha \in (0,1) : Y > 1/2(1-\alpha)^{1/20}\}.
+\]
+This is equal to 0 since $Y > 1/2$
+and we reject $H_0$ since our p-value $0$ is $<0.05$.
+\end{sol}
+\end{enumerate}
+
+\item[(6)] There is a theory that people can postpone their death until after an
+important event. To test the theory, Phillips and King (1988) collected
+data on deaths around the Jewish holiday Passover. Of 1919 deaths, 922
+died the week before the holiday and 997 died the week after. Think of
+this as a binomial and test the null hypothesis that $\theta=1/2$. Report and
+interpret the p-value. Also construct a confidence interval for $\theta$.
+
+\begin{sol}
+Set $n=1919$. Then we have Bernoulli random variables $X_1,\ldots,X_n$
+with $X_i=0$ if person $i$ died the week before Passover and $X_i=1$ otherwise.
+Let $\theta\in [0,1]$ be the parameter with $X_i\sim \Bern(\theta)$ for each $i$.
+So we want to test $H_0:\theta=\theta_0=1/2$ versus $H_1:\theta \neq 1/2$.
+We will test this using the Wald test.
+
+Our test statistic is
+\[
+w = \frac{\hat{\theta} - \theta_0}{\widehat{\se}}.
+\]
+Our estimate for $\hat{\theta}$ is the mean
+\[
+\hat{\theta}=\overline{X}=\frac{1}{n}\sum X_i = \frac{997}{1919}\approx 0.5195.
+\]
+The standard deviation of $\overline{X}$ is $\sigma/\sqrt{n}$ where $\sigma$
+is the standard deviation. So we estimate $\se$ by
+$\widehat{\se}=\widehat{\sigma}/\sqrt{n}$ where $\widehat{\sigma}$ is the
+estimated standard deviation of the $X_i$:
+\[
+\widehat{\se}^2= \frac{1}{n^2} \sum (X_i-\hat{\theta})^2
+= \frac{1}{1919^2} (922 \cdot \hat{\theta}^2 + 997 \cdot (1-\hat{\theta})^2)\approx 0.00013,
+\ \ \ \widehat{\se} \approx 0.0114.
+\]
+Plugging in,
+\[
+w \approx \frac{0.5195 - 0.5}{0.0114} \approx 1.7105.
+\]
+By Theorem 10.13, our estimated p-value is
+\[
+2\Phi(-w)\approx 0.08717.
+\]
+We can view this as weak evidence against $H_0$ but we don't reject $H_0$
+at the size threshold of $0.05$.
+
+A 95\% confidence interval for $\theta$ is given by
+\[
+(\hat{\theta} - 2 \widehat{\se}, \hat{\theta} - 2\widehat{\se})
+= (0.4967, 0.5423).
+\]
+\end{sol}
+
+\item[(7)] In 1861, 10 essays appeared in the New Orleans Daily Crescent. They
+were signed ``Quintus Curtius Snodgras'' and some people suspected
+they were actually written by Mark Twain. To investigate this, we will
+consider the proportion of three letter words found in an author's work.
+From eight Twain essays we have:
+\[
+.225 \ .262 \ .217 \ .240 \ .230 \ .229 \ .235 \ .217
+\]
+From 10 Snodgrass essays we have:
+\[
+.209 \ .205 \ .196 \ .210 \ .202 \ .207 \ .224 \ .223 \ .220 \ .201
+\]
+\begin{enumerate}[(a)]
+\item Perform a Wald test for equality of the means. Use the nonparametric
+plug-in estimator. Report the p-value and a 95 per cent confidence
+interval for the difference of means. What do you conclude?
+\item Now use a permutation test to avoid the use of large sample methods.
+What is your conclusion? (Brinegar (1963)).
+\end{enumerate}
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_10/7.ipynb}{7.ipynb}.
+\end{sol}
+
+\item[(8)] Let $X_1,\ldots,X_n \sim N(\theta,1)$. Consider testing
+\[
+H_0 : \theta = 0 \text{ versus } \theta = 1.
+\]
+Let the rejection region be $R = \{x^n : T(x^n) > c\}$ where
+$T(x^n) = n^{-1}\sum_{i=1}^n x_i$.
+\begin{enumerate}[(a)]
+\item Find $c$ so that the test has size $\alpha$.
+\begin{sol}
+We have
+\[
+\sum X_i \sim N(n\theta, n), \ \ \
+\overline{X_n} = \frac{1}{n} \sum X_i \sim N(\theta, n/n^2) = N(\theta, 1/n).
+\]
+So
+\[
+\beta(\theta)=\P_\theta((X_1,\ldots,X_n) \in R) = \P_\theta(\overline{X_n} > c)
+\]
+and this is equal to
+\[
+\P_\theta(\sqrt{n}(\overline{X_n} - \theta) > \sqrt{n}(c-\theta))
+= 1 - \Phi(\sqrt{n}(c-\theta)).
+\]
+The size is
+\[
+\alpha = \sup_{\theta \in \Theta_0} \beta(\theta) = \beta(0) =
+1- \Phi(c\sqrt{n}).
+\]
+I.e. $\Phi(c\sqrt{n})=1-\alpha$ and solving for $c$ yields
+$c=\frac{1}{\sqrt{n}}z_\alpha$.
+\end{sol}
+\item Find the power under $H_1$, that is, find $\beta(1)$.
+\begin{sol}
+$\beta(1) = 1-\Phi(\sqrt{n}(c-1))$
+\end{sol}
+\item Show that $\beta(1) \to 1$ as $n \to \infty$.
+\begin{sol}
+As $n\to \infty$, $c-1\to -1$ so $\sqrt{n}(c-1)\to -\infty$. Thus
+\\ $\Phi(\sqrt{n}(c-1))\to 0$ and $\beta(1)\to 1$.
+\end{sol}
+\end{enumerate}
+
+\item[(11)]
+A randomized, double-blind experiment was conducted to assess the
+effectiveness of several drugs for reducing postoperative nausea. The
+data are as follows.
+
+\begin{center}
+\begin{tabular}{c|c|c}
+& Number of Patients & Incidence of Nausea \\
+\hline
+Placebo & 80 & 45 \\
+\hline
+Chlorpromazine & 75 & 26 \\
+\hline
+Dimenhydrinate & 85 & 52 \\
+\hline
+Pentobarbital (100 mg) & 67 & 35 \\
+\hline
+Pentobarbital (150 mg) & 85 & 37 \\
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[(a)]
+\item Test each drug versus the placebo at the 5 per cent level. Also, report
+the estimated odds-ratios. Summarize your findings.
+\item Use the Bonferroni and the FDR method to adjust for multiple testing.
+(Beecher (1959)).
+\end{enumerate}
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_10/11.ipynb}{11.ipynb}.
+\end{sol}
+
+\item[(12)] Let $X_1,\ldots,X_n \sim \Poiss(\lambda)$.
+\begin{enumerate}[(a)]
+\item Let $\lambda_0>0$. Find the size $\alpha$ Wald test for
+\[
+H_0:\lambda=\lambda_0 \text{ versus } H_1:\lambda \neq \lambda_0.
+\]
+
+\item (Computer Experiment.) Let $\lambda_0=1$, $n = 20$ and $\alpha = .05$.
+Simulate $X_1,\ldots,X_n \sim \Poiss(\lambda)$ and perform the Wald test.
+Repeat many times and count how often you reject the null.
+How close is the type I error rate to $.05$?
+\end{enumerate}
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_10/12.ipynb}{12.ipynb}.
+\end{sol}
+
+\item[(13)] Let $X_1,\ldots,X_n \sim N(\mu,\sigma^2)$.
+Construct the likelihood ratio test for
+\[
+H_0: \mu=\mu_0 \text{ versus } H_1: \mu \neq \mu_0·
+\]
+Compare to the Wald test.
+
+\begin{sol}
+We assume $\sigma$ to be known.
+The likelihood ratio test statistic is
+\[
+\lambda = 2 \log \left( \frac{\mathcal L(\hat\mu)}{\mathcal L(\mu_0)}\right)
+\]
+where $\hat \mu$ is the maximum likelihood estimator
+$\hat \mu = \overline X = \frac{1}{n}\sum X_i$.
+
+We have
+\[
+\mathcal L(\hat\mu) = \prod_i \frac{1}{\sqrt{2\pi}\sigma}e^{-(X_i-\hat\mu)^2/2\sigma^2}
+= \frac{1}{(\sqrt{2\pi}\sigma)^n}e^{-\sum(X_i-\hat\mu)^2/2\sigma^2}.
+\]
+Expanding $(X_i-\mu_0)^2$ as
+\[
+(X_i-\hat\mu)^2+2(\hat\mu-\mu_0)(X_i-\hat\mu) +(\hat\mu-\mu_0)^2
+\]
+yields
+\[
+\sum (X_i-\mu_0)^2 = \sum (X_i-\hat \mu)^2 + n(\hat\mu -\mu_0)^2.
+\]
+So we have
+\[
+\mathcal L(\mu_0) =
+\frac{1}{(\sqrt{2\pi}\sigma)^n} e^{-\left(\sum (X_i-\hat\mu)^2/2\sigma^2 +
+n(\hat\mu-\mu_0)^2/2\sigma^2\right)}.
+\]
+Thus
+\[
+\frac{\mathcal L(\hat\mu)}{\mathcal L(\mu_0)}=e^{n(\hat\mu-\mu_0)^2/2\sigma^2}
+\]
+and our statistic is
+\[
+\lambda = 2 \log \left( \frac{\mathcal L(\hat\mu)}{\mathcal L(\mu_0)}\right)=
+n(\hat\mu-\mu_0)^2/\sigma^2.
+\]
+
+Say that we reject $H_0$ if $\lambda > c$ for some fixed $c$. This is equivalent
+to
+\[
+\frac{|\hat\mu-\mu_0|}{\sigma/\sqrt{n}} > \sqrt{c}.
+\]
+Let's compute the size of this test.
+Assuming $\mu=\mu_0$, we have that
+$\frac{\hat\mu-\mu_0}{\sigma/\sqrt{n}} \sim N(0,1)$.
+In this case, the probability of the inequality above is
+\[
+\Phi(-\sqrt{c}) + (1-\Phi(\sqrt{c})) = 2-2\Phi(\sqrt{c})
+\]
+and this is the size of our test.
+Setting the size to be $\alpha$ yields $c = z_{\alpha/2}^2$. So the size
+$\alpha$ likelihood ratio test is
+\[
+\frac{|\hat\mu-\mu_0|}{\sigma/\sqrt{n}} > z_{\alpha/2}.
+\]
+The size $\alpha$ Wald test for rejecting $H_0$ is
+\[
+\frac{|\hat\mu-\mu_0|}{\widehat{\se}} > z_{\alpha/2}.
+\]
+So we see that the two tests are the same up to replacing $\widehat\se$ (an
+estimate of the standard error of $\hat\mu$) by
+$\sigma/\sqrt{n}$ (the actual standard error of $\hat\mu$).
+\end{sol}
+
+
+\end{enumerate}
+\end{document}
