@@ -1,0 +1,469 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\Exp}{\operatorname{Exp}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 2 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(2)] Let $X$ be such that $\P(X = 2) = \P(X = 3) = 1/10$ and
+$\P(X = 5) = 8/10$.
+Plot the CDF $F$. Use $F$ to find $\P(2<X\leq 4.8)$ and $\P(2\leq X\leq 4.8)$.
+
+\begin{sol}
+The CDF is
+\[
+F(x) =
+    \begin{cases}
+      0 & x < 2 \\
+      1/10 & 2\leq x\leq 3 \\
+      2/10 & 3\leq x \leq 5 \\
+      1 & x\geq 5
+   \end{cases}
+\]
+Thus $\P(2<X\leq 4.8) = F(4.8)-F(2)=2/10-1/10=1/10$ and
+$\P(2\leq X\leq 4.8)=\P(X=2)+1/10=2/10$. A plot is shown below.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{2.pdf}
+\end{figure}
+\end{sol}
+
+\item[(4)]
+
+Let $X$ have probability density function
+\[
+f_X(x) =
+    \begin{cases}
+      1/4 & 0<x<1 \\
+      3/8 & 3<x<5 \\
+      0 & \text{otherwise}
+   \end{cases}
+\]
+\begin{enumerate}[(a)]
+\item Find the cumulative distribution function of $X$.
+\item Let $Y = 1/ X$. Find the probability density function $f_Y(y)$ for $Y$.
+Hint: Consider three cases: $\frac{1}{5}\leq y\leq \frac{1}{3},
+\frac{1}{3}\leq y\leq 1$, and $y\geq 1$.
+\end{enumerate}
+
+\begin{sol}
+\begin{enumerate}[(a)]
+\item The CDF $F_X(x)$ is equal to $0$ at $x=0$, $1/4$ at $x=1$, $1/4$ at $x=3$,
+and $1$ at $x=5$. It interpolates between these values affinely. I.e.
+
+\[
+F_X(x) =
+\begin{cases}
+0 & x \leq 0 \\
+1/4x & 0\leq x\leq 1\\
+1/4 & 1\leq x \leq 3 \\
+1/4 + 3/8(x-3) & 3\leq x \leq 5\\
+1 & x\geq 5
+\end{cases}
+\]
+
+\item We will compute $F_Y(y)$ and take its derivative to compute $f_Y(y)$.
+We want to calculate $F_Y(y)=\P(Y\leq y)=\P(1/X \leq y)$. This is 0 if $y\leq 0$
+so we may assume without loss of generality that $y>0$.
+We consider the set $A_y=\{x>0:1/x\leq y\}$. This is equal to $[1/y,\infty)$,
+so $F_Y(y)=\int_{1/y}^\infty f_X(x)dx$.
+
+First consider the case $1/y \geq 5$ i.e. $y\leq 1/5$. Then we have
+\[
+F_Y(y) = \int_{1/y}^\infty f_X(x)dx \leq \int_5^\infty f_X(x)dx=0.
+\]
+Now consider the case $3\leq 1/y\leq 5$ i.e. $1/5\leq y\leq 1/3$.
+Since $1/y \geq 3$ we have
+\[
+F_Y(y) =  \int_{1/y}^5 \frac{3}{8} dx
+=\frac{3}{8}(5-1/y).
+\]
+Now consider the case $1\leq 1/y\leq 3$ i.e. $1/3\leq y\leq 1$.
+Since $1/y \geq 1$ we have
+\[
+F_Y(y) = \int_{1/y}^\infty f_X(x)dx = \int_3^5 \frac{3}{8} dx=\frac{3}{4}.
+\]
+Finally if $0<1/y\leq 1$, i.e. $1\leq y$, we have
+\[
+F_Y(y) = \int_{1/y}^1 f_X(x) dx + \frac{3}{4}
+= \frac{1}{4}(1-1/y) + \frac{3}{4}.
+\]
+\end{enumerate}
+
+Thus,
+\[
+F_Y(y) =
+\begin{cases}
+0 & y\leq 1/5 \\
+\frac{3}{8}(5-\frac{1}{y}) &  1/5 \leq y\leq 1/3 \\
+\frac{3}{4} & 1/3 \leq y \leq 1 \\
+\frac{3}{4} + \frac{1}{4}(1-\frac{1}{y}) & y\geq 1
+\end{cases}
+\]
+and
+\[
+f_Y(g) =
+\begin{cases}
+0 & y\leq 1/5 \\
+\frac{3}{8y^2} &  1/5 \leq y\leq 1/3 \\
+0 & 1/3 \leq y \leq 1 \\
+\frac{1}{4y^2} & y\geq 1.
+\end{cases}
+\]
+\end{sol}
+
+\item[(7)] Let $X$ and $Y$ be independent and suppose that each has a
+$\Unif(O, 1)$ distribution. Let $Z = \min\{X, Y\}$.
+Find the density $f_Z(z)$ for $Z$. Hint:
+It might be easier to first find $\P(Z>z)$.
+
+\begin{sol}
+We have $\P(Z>z) = \P(X>z \text{ and } Y>z)=\P(X>z)\P(Y>z)$ by independence.
+This is equal to $(1-F_X(z))(1-F_Y(z))$ and
+\[
+F_X(z)=F_Y(z) =
+\begin{cases}
+0 & z\leq 0 \\
+z & 0\leq z \leq 1\\
+1 & z\geq 1.
+\end{cases}
+\]
+Thus \[
+F_Z(z) = 1-(1-F_X(z))(1-F_Y(z)) =
+\begin{cases}
+0 & z\leq 0 \\
+2z-z^2 & 0\leq z \leq 1\\
+1 & z\geq 1
+\end{cases}
+\]
+and
+\[
+f_Z(z) =
+\begin{cases}
+2 - 2z & 0\leq z \leq 1\\
+0 & \text{otherwise}.
+\end{cases}
+\]
+\end{sol}
+
+\item[(8)] Let $X$ have CDF $F$. Find the CDF of $X^+=\max\{0,X\}$.
+
+\begin{sol}
+If $x\geq 0$ then $X^+ > x$ if and only if $X>x$. Thus $F_{X^+}(x)=F(x)$.
+
+If $x<0$ then $X^+>x$ automatically. So $F_X^+(x)=\P(X^+\leq x)=0$.
+
+Thus \[
+F_{X^+}(x) =
+\begin{cases}
+0 & x < 0 \\
+F_X(x) & x\geq 0.
+\end{cases}
+\]
+\end{sol}
+
+\item[(9)]
+Let $X\sim\Exp(\beta)$. Find $F_X(x)$ and $F_X^{-1}(q)$.
+
+\begin{sol}
+We have $f_X(x)=\frac{1}{\beta} e^{-x/\beta}$ for $x > 0$.
+Thus if $x>0$
+\[
+F_X(x) = \int_{\infty}^x f_X(t)dt = 1-e^{-x/\beta}.
+\]
+In general,
+\[
+F_X(x) =
+\begin{cases}
+0 & x \leq 0 \\
+1-e^{-x/\beta} & x\geq 0.
+\end{cases}
+\]
+
+For $0\leq q\leq 1$, $F_X^{-1}(q) = \inf \{x : F_X(x) \geq q\}$. Solving
+$1-e^{-x/\beta} \geq q$ for $x$ yields $x\geq -\beta\log(1-q)$. So
+$F_X^{-1}(q)=-\beta\log(1-q)$.
+\end{sol}
+
+\item[(11)]
+
+Suppose we toss a coin once and let $p$ be the probability of heads. Let
+$X$ denote the number of heads and let $Y$ denote the number of tails.
+\begin{enumerate}[(a)]
+\item Prove that $X$ and $Y$ are dependent.
+\item Let $N\sim \Poiss(\lambda)$ and suppose we toss a coin $N$ times.
+Let $X$ and
+$Y$ be the number of heads and tails. Show that $X$ and $Y$ are independent.
+\end{enumerate}
+
+\begin{sol}
+\begin{enumerate}[(a)]
+\item $\P(X=1, Y=1)=0$ but $\P(X=1)=1/2$ and $\P(Y=1)=1/2$.
+\item Choose $n\geq 0$. Then
+\[
+\P(X=n)=f_X(n) = \sum_{N=n}^\infty \frac{e^{-\lambda}\lambda^N}{N!}\binom{N}{n}.
+\]
+I.e. the total number of flips $N$ ranges from $n$ to $\infty$, there is
+probability $e^{-\lambda}\lambda^N/N!$ for the number $N$ of flips, and
+the number of possible ways for $n$ of those flips to be heads is
+$\binom{N}{n}$. The above infinite sum is also equal to $f_Y(n)$.
+Simplifying $\binom{N}{n}/N!$ to $\frac{1}{n!(N-n)!}$ and pulling out factors
+of $e^\lambda$ and $1/n!$ from the sum yields that $f_X(n)$ is
+\[
+\frac{e^{-\lambda}}{n!} \sum_{N=n}^\infty \frac{(\lambda/2)^N}{(N-n)!}
+= \frac{e^{-\lambda}}{n!}(\lambda/2)^n \sum_{m=0}^\infty \frac{(\lambda/2)^m}{m!}
+= \frac{e^{-\lambda}}{n!}(\lambda/2)^ne^{\lambda/2}
+=\frac{e^{-\lambda/2}}{n!}(\lambda/2)^n
+\]
+
+On the other hand,
+\[
+\P(X=m,Y=n) = f_{X,Y}(m,n) =
+\frac{e^{-\lambda}\lambda^{m+n}}{(m+n)!}\binom{m+n}{m}(1/2)^{m+n}
+=\frac{e^{-\lambda} (\lambda/2)^{m+n}}{m!n!}.
+\]
+I.e. the first term in the product is the probability of $m+n$ total flips
+and the second term is the probability of seeing $m$ heads and $n$ tails among
+these flips. By our simplified expression for $f_X$ and $f_Y$ we see that
+the above expression for $\P(X=m,Y=n)$ is equal to $\P(X=m)\P(Y=n)$
+and $X$ and $Y$ are indeed independent.
+\end{enumerate}
+\end{sol}
+
+\item[(13)]
+
+Let $X\sim N(0,1)$ and let $Y = e^X$.
+
+\begin{enumerate}[(a)]
+\item Find the PDF for $Y$. Plot it.
+\item (Computer Experiment.) Generate a vector $x = (x_1,\ldots,x_{10,000})$
+consisting
+of 10,000 random standard Normals. Let $y = (y_1,\ldots,y_{10,000})$
+where $y_i = e^{x_i}$. Draw a histogram of $y$ and compare it to the PDF you
+found in part (a).
+\end{enumerate}
+
+\begin{sol}
+\begin{enumerate}[(a)]
+\item The PDF for $X$ is
+\[
+f_X(x)=\frac{1}{\sqrt{2\pi}}e^{-x/2}.
+\]
+We have
+\[
+F_Y(y)=\P(Y\leq y)=\P(e^X\leq y)=F_X(\log(y))=
+\int_{-\infty}^{\log(y)} \frac{1}{\sqrt{2\pi}}e^{-x^2/2}dx
+\]
+for $y>0$ and $F_Y(y)=0$ elsewhere.
+The derivative is
+\[
+f_Y(y) = \frac{1}{y}\frac{1}{\sqrt{2\pi}}e^{-\log^2y/2}
+\]
+for $y>0$ and $F_Y(y)=0$ elsewhere.
+
+\item
+
+See the Jupyter Notebook:
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_2/13.ipynb}{13.ipynb}
+\end{enumerate}
+\end{sol}
+
+\item[(14)] Let $(X, Y)$ be uniformly distributed on the unit disk
+$\{(x, y) : x2 + y2 \leq 1\}$. Let $R = \sqrt{X^2+Y^2}$.
+Find the CDF and PDF of $R$.
+
+\begin{sol}
+We have
+\[
+F_R(r) = \P(\sqrt{x^2+y^2}\leq r)=
+\begin{cases}
+0 & r \leq 0 \\
+r^2 & 0 \leq r \leq 1 \\
+1 & r \geq 1
+\end{cases}
+\]
+i.e. this is the area of the disk of radius $r$ after normalizing so that the
+unit disk has area 1 by dividing by its usual area, $\pi$.
+Taking the derivative yields
+\[
+f_R(r) = \begin{cases}
+2r & 0\leq r \leq 1 \\
+0 & \text{otherwise}.
+\end{cases}
+\]
+\end{sol}
+
+\item[(15)] (A universal random number generator.)
+Let $X$ have a continuous, strictly
+increasing CDF $F$. Let $Y = F(X)$. Find the density of $Y$. This is called
+the probability integral transform. Now let $U\sim \Unif(0,1)$ and let
+$X = F^{-1}(U)$. Show that $X \sim F$. Now write a program that takes
+$\Unif(0,1)$ random variables and generates random variables from
+an $\Exp(\beta)$ distribution.
+
+\begin{sol}
+Since $F$ is continuous and strictly increasing, $F^{-1}$ exists as a function
+$F^{-1}:(0,1)\to \R$. For $0\leq y \leq 1$ we have
+\[
+F_Y(y) = \P(F(X) \leq y) = \P(X \leq F^{-1}(y)) = F(F^{-1}(y))=y.
+\]
+So
+\[
+F_Y(y) =
+\begin{cases}
+0 & y \leq 0 \\
+y & 0\leq y\leq 1 \\
+1 & y\geq 1 \\
+\end{cases}
+\]
+and $f_Y = \chi_{[0,1]}$, the indicator function of $[0,1]$.
+
+If $U\sim \Unif(0,1)$ and $X=F^{-1}(U)$ then
+\[
+F_X(x) = \P(F^{-1}(U) \leq x) = \P(U \leq F(x)) =
+\begin{cases}
+0 & F(x) \leq 0 \\
+F(x) & 0\leq F(x) \leq 1 \\
+1 & F(x) \geq 1
+\end{cases}
+\]
+Of course the first and third cases are vacuous, so $F_X(x)=F(x)$.
+
+Now we consider the case $F(x)=-e^{-x/\beta}+1$, the CDF for the exponential
+distribution. The inverse of this function is $F^{-1}:(0,1)\to \R$,
+$F^{-1}(y) = -\beta \log(1-y)$. So if $U\sim \Unif(0,1)$ then
+$F^{-1}(U)\sim \Exp(\beta)$.
+
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_2/13.ipynb}{15.ipynb}
+for a demo.
+\end{sol}
+
+\item[(16)]
+Let $X \sim \Poiss(\lambda)$ and $Y \sim \Poiss(\mu)$ and assume that $X$ and $Y$
+are independent. Show that the distribution of $X$ given that $X + Y = n$ is
+$\Binom(n,\pi)$ where $\pi=\lambda/(\lambda+\mu)$.
+
+Hint 1: You may use the following fact: If $X \sim \Poiss(\lambda)$ and
+$Y\sim \Poiss(\mu)$, and $X$ and $Y$ are independent, then
+$X +Y \sim \Poiss(\lambda+\mu)$.
+
+Hint 2: Note that $\{X = x, X + Y = n\} = \{X = x, Y = n - x\}$.
+
+\begin{sol}
+We consider conditional probability distributions:
+\[
+f_{X|X+Y}(x|n) = \frac{f_{X,X+Y}(x,n)}{f_{X+Y}(n)}.
+\]
+We have $f_{X,X+Y}(x,y) = \P(X=x, X+Y=n) = \P(X=x) \P(Y = n-x)=f_X(x)f_Y(n-x)$.
+Plugging in for $f_X$, $f_Y$, and $f_{X+Y}$ and noting that
+$X+Y\sim \Poiss(\lambda+\mu)$ yields that $f_{X|X+Y}(x|n)$ is equal to
+\[
+\frac{e^{-\lambda}\frac{\lambda^x}{x!}e^{-\mu}\frac{\mu^{n-x}}{(n-x)!}}
+{e^{-\lambda-\mu}\frac{(\lambda+\mu)^n}{n!}}
+=
+\binom{n}{x} \left(\frac{\lambda}{\lambda+\mu}\right)^x\left(\frac{\mu}{\lambda+\mu}\right)^{n-x}
+= \binom{n}{x} (\lambda/\pi)^x (1-\lambda/\pi)^{n-x}.
+\]
+This is exactly the expression for the PDF of $\Binom(n,\pi)$ at $x$.
+\end{sol}
+
+\item[(17)]
+Let
+\[
+f_{X,Y}(x,y) =
+\begin{cases}
+c(x+y^2) & 0\leq x \leq \text{ and } 0\leq y\leq 1 \\
+0 & \text{otherwise} \\
+\end{cases}
+\]
+Find $\P(X < \frac{1}{2} | Y=\frac{1}{2})$.
+
+\begin{sol}
+We plug in $y=1/2$ and consider the resulting distribution. We have
+\[
+\P\left(X<\frac{1}{2} | Y = \frac{1}{2}\right)
+= \int_0^{1/2} \frac{c(x+1/4)}{f_Y(1/2)}dx
+= \frac{c}{4f_Y(1/2)}
+\]
+
+So we need to compute the marginal distribution $f_Y(y)$. We have
+\[
+f_Y(y) = \int_0^1 c(x+y^2)dx = c\left(\frac{1}{2}+y^2\right)
+\]
+To compute $c$ we solve
+\[
+1 = \int_0^1 \int_0^1 c(x+y^2)dxdy = \int_0^1 \left(\frac{1}{2}c + cy^2\right)dy
+= \frac{1}{2}c + \frac{1}{3}c = \frac{5}{6}c.
+\]
+Thus $c = \frac{6}{5}$. Finally we can plug in to find
+\[
+f_Y\left(\frac{1}{2}\right) = \frac{6}{5}\left(\frac{1}{2}+\frac{1}{4}\right)
+= \frac{9}{10} \text{ and }
+\P\left(X<\frac{1}{2} | Y = \frac{1}{2}\right) = \frac{6/5}{4 \cdot 9/10} =
+\frac{1}{3}.
+\]
+\end{sol}
+
+\item[(18)]
+
+Let $X \sim N(3, 16)$. Solve the following using the Normal table and using
+a computer package.
+\begin{enumerate}[(a)]
+\item Find $\P(X<7)$.
+\item Find $\P(X>-2)$.
+\item Find $x$ such that $\P(X > x) = .05$.
+\item Find $\P(0 \leq X < 4)$.
+\item Find $x$ such that $\P(|X| > |x|) = .05$.
+\end{enumerate}
+
+\begin{sol}
+See the Jupyter Notebook:
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_2/18.ipynb}{18.ipynb}
+\end{sol}
+\end{enumerate}
+\end{document}
