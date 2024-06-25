@@ -236,5 +236,63 @@ So
 \item[(21)]
 Let $X$ and $Y$ be random variables. Suppose that $\E(Y|X) = X$. Show
 that $\Cov(X, Y) = V(X)$.
+
+\begin{sol}
+By hypothesis,
+\[
+x = \E(Y | X=x) = \int y \frac{f_{X,Y}(x,y)}{f_X(x)}dy
+\]
+i.e. $\int y f_{X,Y}(x,y)dy = x f_X(x)$.
+
+Letting $\mu_X,\mu_Y$ be the expectations, we have
+\[
+\Cov(X,Y) = \E((X-\mu_X)(Y-\mu_Y)) =
+\int \int (x-\mu_X)(y-\mu_Y)f_{X,Y}(x,y)dxdy
+\]
+and this is equal to
+\[
+\int (x-\mu_X)\left(\int (y-\mu_Y) f_{X,Y}(x,y)dy\right)dx
+= \int (x-\mu_X) \left(xf_X(x) - \mu_Yf_X(x)\right)dx
+\]
+using that $\int y f_{X,Y}(x,y)dy = x f_X(x)$.
+
+Now note by the Rule of Iterated Expectations that
+\[
+\mu_Y = \E(Y) = \E(\E(Y|X)) = \E(X) = \mu_X.
+\]
+plugging this into the equality from the last paragraph gives
+\[
+\Cov(X,Y) = \int (x-\mu_X)(x-\mu_Y)f_X(x)dx = \int(x-\mu_X)^2 f_X(x)dx=\V(X).
+\]
+\end{sol}
+
+\item[(22)]
+Let $X \sim \Unif(0,1)$. Let $0 < a < b < 1$. Let
+\[
+Y =
+\begin{cases}
+1 & 0<x<b \\
+0 & \text{otherwise}
+\end{cases}
+\]
+and let
+\[Z =
+\begin{cases}
+1 & a < x < 1 \\
+0 & \text{otherwise}
+\end{cases}
+\]
+\begin{enumerate}[(a)]
+\item Are $Y$ and $Z$ independent? Why/Why not?
+\item Find $\E(Y|Z)$. Hint: What values $z$ can $Z$ take?
+Now find $\E(Y|Z=z)$.
+\end{enumerate}
+
+\begin{sol}
+\begin{enumerate}[(a)]
+\item $Y$ and $Z$ are not independent. For $\P(Y=1,Z=1)=b-a$ whereas
+$\P(Y=1)\P(Z=1) = b(1-a) > b-a$.
+\end{enumerate}
+\end{sol}
 \end{enumerate}
 \end{document}
