@@ -1,0 +1,240 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\Cov}{\operatorname{Cov}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 3 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(1)]
+Suppose we play a game where we start with $c$ dollars. On each play of
+the game you either double or halve your money, with equal probability.
+What is your expected fortune after $n$ trials?
+
+\begin{sol}
+Suppose you halve your money $m$ times out of $n$. There are $\binom{n}{m}$
+ways to do this, each with probability $(1/2)^n$. Your fortune after $n$
+trials is $(1/2)^m2^nc$. We get the expected value of your fortune after $n$
+trials by summing over $m$:
+\[
+\sum_{m=0}^n \binom{n}{m}\left(\frac{1}{2}\right)^n \left(\frac{1}{2}\right)^m2^{n-m}c
+= \sum_{m=0}^n \binom{n}{m} \left(\frac{1}{2}\right)^{2m}c.
+\]
+We can recognize this as
+\[
+\sum_{m=0}^n \binom{n}{m} \left(\frac{1}{4}\right)^m(1)^{n-m} =
+c\left(1+\frac{1}{4}\right)^n = c\left(\frac{5}{4}\right)^n.
+\]
+\end{sol}
+
+\item[(3)]
+Let $X_1, \ldots ,X_n \sim \Unif(0,1)$ and let $Y_n = \max\{X_1, ... ,X_n\}$. Find
+$\E(Y_n)$.
+
+\begin{sol}
+We suppose the $X_i$ are independent. For $x\in [0,1]$, the CDF of $Y$ satisfies
+\[
+F_Y(x)=\P(X_i\leq x \text{ for all } i)=x^n
+\]
+and $f_Y(x) = nx^{n-1}$ on $[0,1]$ and $0$ elsewhere.
+
+Thus
+\[
+\E(Y) = \int_0^1 x (n x^{n-1}) dx =\frac{n}{n+1}.
+\]
+\end{sol}
+
+\item[(4)]
+A particle starts at the origin of the real line and moves along the line in
+jumps of one unit. For each jump the probability is $p$ that the particle
+will jump one unit to the left and the probability is $1-p$ that the particle
+will jump one unit to the right. Let $X_n$ be the position of the particle
+after $n$ units. Find $\E(X_n)$ and $\V(X_n)$. (This is known as a \textbf{random
+walk}.)
+
+\begin{sol}
+Let $Y_1,\ldots,Y_n$ be independent $\Bern(p)$ random variables with $Y_i=0$
+if the particle moves to the right on the $i^{\text{th}}$ step and $Y_i=1$
+otherwise. Then
+\[
+X_n = \sum_{i=1}^n (1-2Y_i).
+\]
+We have $\E(X_n) = \sum_{i=0}^n \E(1-2Y_i)$ and
+$\E(1-2Y_i) = (1-p)(1) + p(-1)=1-2p$ so $\E(X_n)=n(1-2p)$.
+
+By independence, the variance is $\V(X_n) = \sum_{i=0}^n \V(1-2Y_i)$.
+We have $(1-2Y_i)^2=1$ always so $\E(((1-2Y_i)^2)=1$. So
+\[
+\V(1-2Y_i) = \E((1-2Y_i)^2) - \E(1-2Y_i)^2 = 1 - (1-2p)^2 = 4p-4p^2
+\text{ and } \V(X_n) = 4np(1-p).
+\]
+\end{sol}
+
+\item[(5)]
+A fair coin is tossed until a head is obtained. What is the expected
+number of tosses that will be required?
+
+\begin{sol}
+The sample space is $\{H, TH, TTH, TTTH,\ldots\}$ with the $i^{th}$ entry
+occurring with probability $1/2^i$. The expected value is thus
+\[
+\frac{1}{2}(1) + \frac{1}{4}(2) + \frac{1}{8}(3) + \ldots =
+\sum_{i=0}^\infty \frac{i}{2^i}.
+\]
+Recall that the Taylor series of $1/(1-x^2)$ is $\sum i x^{i-1}$. So
+the expected value is
+\[
+\frac{1}{2}\sum_{i=0}^\infty \frac{i}{2^{i-1}} =
+\frac{1}{2} \frac{1}{(1-\frac{1}{2})^2} = 2.
+\]
+\end{sol}
+
+\item[(9)]
+(Computer Experiment.) Let $X_1, X_2, \ldots, X_n$ be $N(0, 1)$ random variables
+and let $\overline{X_n} = n^{-1} \sum_{i=1}^n X_i$.
+Plot $X_n$ versus $n$ for $n = 1, \ldots, 10,000$.
+Repeat for $X_1,X_2,\ldots,X_n \sim \operatorname{Cauchy}$.
+Explain why there is such a difference.
+
+\begin{sol}
+See the Jupyter notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_3/9.ipynb}{9.ipynb}.
+\end{sol}
+
+\item[(10)]
+Let $X \sim N(0,1)$ and let $Y = e^X$. Find $\E(Y)$ and $\V(Y)$.
+
+\begin{sol}
+By the rule of the lazy statistician,
+\[
+\E(Y) = \frac{1}{\sqrt{2\pi}} \int e^x e^{-x^2/2}dx
+= \frac{1}{\sqrt{2\pi}} \int e^{-(x-1)^2/2 + 1/2}dx
+= \sqrt{e} \int \frac{1}{\sqrt{2\pi}} e^{-(x-1)^2/2}dx.
+\]
+The integral $\int \frac{1}{\sqrt{2\pi}} e^{-(x-1)^2/2}dx$ is just the total
+integral of the PDF of a $N(1,1)$ random variable so it's equal to 1. Finally
+then $\E(Y)=\sqrt{e}$.
+
+To compute the variance we consider $Y^2 = e^{2X}$. We have
+\[
+\E(Y^2) = \int \frac{1}{\sqrt{2\pi}} e^{1/2(4x-x^2)}dx =
+\int \frac{1}{\sqrt{2\pi}} e^{-1/2(2-x)^2+2}dx =
+e^2 \int \frac{1}{\sqrt{2\pi}} e^{-1/2(2-x)^2}dx = e^2.
+\]
+
+Finally then
+\[
+\V(Y) = \E(Y^2) - \E(Y)^2 = e^2-e.
+\]
+\end{sol}
+
+\item[(11)]
+(Computer Experiment: Simulating the Stock Market.) Let $Y_1,Y_2,\ldots$ be
+independent random variables such that $\P(Y_i = 1) = \P(Y_i = -1) =
+1/2$. Let $X_n = \sum_{i=1}^n Y_i$. Think of $Y_i=1$ as
+``the stock price increased by one dollar'', $Y_i=-1$ as
+``the stock price decreased by one dollar'',
+and $X_n$ as the value of the stock on day $n$.
+\begin{enumerate}[(a)]
+\item Find $\E(X_n)$ and $\V(X_n)$.
+\item Simulate $X_n$ and plot $X_n$ versus $n$ for $n = 1,2, \ldots, 10,000$.
+Repeat the whole simulation several times. Notice two things. First, it's easy
+to ``see'' patterns in the sequence even though it is random. Second,
+you will find that the four runs look very different even though they
+were generated the same way. How do the calculations in (a) explain
+the second observation?
+\end{enumerate}
+
+\begin{sol}
+\begin{enumerate}[(a)]
+\item
+First
+\[
+\E(X_n) = \sum \E(X_i) = 0.
+\]
+We have $\V(X_i)=\frac{1}{2}(1-0)^2 + \frac{1}{2}(-1-0)^2=1$ so
+\[
+\V(X_n) = \sum \V(X_i) = n.
+\]
+\item See the Jupyter notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_3/11.ipynb}{11.ipynb}.
+\end{enumerate}
+\end{sol}
+
+\item[(15)]
+Let
+\[
+f_{X,Y}(x,y) =
+\begin{cases}
+\frac{1}{3}(x+y) & 0\leq x \leq 1, 0\leq y \leq 1 \\
+0 & \text{otherwise}
+\end{cases}
+\]
+Find $\V(2X - 3Y + 8)$.
+
+\begin{sol}
+Set $Z=r(X,Y)=2X-3Y$. We have $\V(2X-3Y+8)=\V(Z)=\E(Z^2) - \E(Z)^2$.
+We'll calculate these two terms separately.
+\[
+\E(Z) = \int_0^2 \int_0^1(2x-3y) \frac{1}{3}(x+y)dxdy=-\frac{23}{9}.
+\]
+And $Z^2=4X^2-12XY+9Y^2$ so
+\[
+\E(Z^2)=\int_0^2\int_0^1 (4x^2-12xy+9y^2)\frac{1}{3}(x+y)dxdy=\frac{86}{9}.
+\]
+So
+\[
+\V(Z)= \frac{86}{9} - \left(\frac{23}{9}\right)^2 = \frac{245}{81}.
+\]
+\end{sol}
+
+\item[(21)]
+Let $X$ and $Y$ be random variables. Suppose that $\E(Y|X) = X$. Show
+that $\Cov(X, Y) = V(X)$.
+\end{enumerate}
+\end{document}
