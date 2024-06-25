@@ -292,7 +292,82 @@ Now find $\E(Y|Z=z)$.
 \begin{enumerate}[(a)]
 \item $Y$ and $Z$ are not independent. For $\P(Y=1,Z=1)=b-a$ whereas
 $\P(Y=1)\P(Z=1) = b(1-a) > b-a$.
+\item $\E(Y|Z=z) = \sum y f_{Y|Z}(y|z)$ and $f_{Y|Z}(y|z) = f_{Y,Z}(y,z)/f_Z(z)$.
+The distribution $f_{Y,Z}$ is given by the following table:
+\begin{center}
+\begin{tabular}{c | c | c}
+$y/z$ & $0$ & $1$ \\
+\hline
+$0$ & $0$ & $1-b$ \\
+\hline
+$1$ & $a$ & $b-a$
+\end{tabular}
+\end{center}
+
+We have $f_Z(0)=a$ and $f_Z(1)=1-a$. So $f_{Y|Z}$ is given by the following table:
+\begin{center}
+\begin{tabular}{c | c | c}
+$y/z$ & 0 & 1 \\
+\hline
+$0$ & $0$ & $\frac{1-b}{1-a}$ \\
+\hline
+$1$ & $1$ & $\frac{b-a}{1-a}$
+\end{tabular}
+\end{center}
+
+Thus,
+\[
+\E(Y|Z=0) = 0 \cdot f_{Y|Z}(0,0) + 1 \cdot f_{Y|Z}(1,0) = f_{Y|Z}(1,0) = 1
+\]
+and
+\[
+\E(Y|Z=1) = f_{Y|Z}(1,1) = \frac{b-a}{1-a}
+\]
+so that
+\[
+\E(Y|Z) =
+\begin{cases}
+1 & Z = 0 \\
+\frac{b-a}{1-a} & Z =1.
+\end{cases}
+\]
 \end{enumerate}
+\end{sol}
+
+\item[(23)]
+Find the moment generating function for the Poisson, Normal, and
+Gamma distributions.
+
+\begin{sol}
+\underline{$\Poiss(\lambda)$}
+\[
+\psi_X(t) = \sum_{x=0}^\infty e^{tx} \frac{e^{-\lambda}\lambda^x}{x!} =
+e^{-\lambda} \sum_{x=0}^\infty \frac{e^{(t+\log\lambda)x}}{x!} =
+e^{-\lambda}e^{e^{t+\log\lambda}}=e^{\lambda(e^t-1)}
+\]
+
+\underline{$N(\mu,\sigma)$}
+\[
+\psi_X(t) =
+\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}\sigma} e^{tx}e^{-(x-\mu)^2/2\sigma^2}dx =
+\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}\sigma} e^{(-x^2+2\sigma^2tx + 2\mu x -\mu^2)/2\sigma^2}dx.
+\]
+Completing the square yields
+\[
+\psi_X(t) = e^{t\mu + \sigma^2t^2/2} \int \frac{1}{\sqrt{2\pi}\sigma}
+e^{-(x-\sigma^2t-\mu)^2/2\sigma^2}dx = e^{t\mu + \sigma^2t^2/2}.
+\]
+
+\underline{$\Gamma(\alpha)$}
+\[
+\psi_X(t) =
+\int_0^\infty e^{tx} \frac{1}{\beta^\alpha \Gamma(\alpha)}x^{\alpha-1}e^{-x/\beta}dx =
+\frac{1}{(1-t\beta)^\alpha}
+\int_0^\infty \frac{1}{\left(\frac{\beta}{1-t\beta}\right)^\alpha \Gamma(\alpha)}
+e^{-x(1-t\beta)/\beta}dx
+\]
+and this is just equal to $\frac{1}{(1-t\beta)^\alpha}$
+(assuming that $t<1/\beta$).
 \end{sol}
 \end{enumerate}
 \end{document}
