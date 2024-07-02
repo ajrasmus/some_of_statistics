@@ -98,7 +98,7 @@ The p-value is
 \[
 \inf \{\alpha \in (0,1) : Y \in R_\alpha\} = \inf\{\alpha \in (0,1) : Y > c\}
 \]
-Since $\alpha$ is strictly monotonically decreasing with $c$ the p-value
+Since $\alpha$ is strictly monotonically decreasing with $c$, the p-value
 is exactly the value of $\alpha$ when $Y=c$. In other words, the p-value is
 \[\alpha=1-(2Y)^n=1-(2 \cdot 0.48)^{20} \approx 0.558.\]
 We would not reject the null hypothesis $H_0$ in this case.
@@ -140,13 +140,13 @@ Our estimate for $\hat{\theta}$ is the mean
 \[
 \hat{\theta}=\overline{X}=\frac{1}{n}\sum X_i = \frac{997}{1919}\approx 0.5195.
 \]
-The standard deviation of $\overline{X}$ is $\sigma/\sqrt{n}$ where $\sigma$
-is the standard deviation. So we estimate $\se$ by
+The standard error of $\overline{X}$ is $\sigma/\sqrt{n}$ where $\sigma$
+is the standard deviation of the $X_i$. So we estimate $\se$ by
 $\widehat{\se}=\widehat{\sigma}/\sqrt{n}$ where $\widehat{\sigma}$ is the
 estimated standard deviation of the $X_i$:
 \[
-\widehat{\se}^2= \frac{1}{n^2} \sum (X_i-\hat{\theta})^2
-= \frac{1}{1919^2} (922 \cdot \hat{\theta}^2 + 997 \cdot (1-\hat{\theta})^2)\approx 0.00013,
+\widehat{\se}^2= \frac{1}{n} \hat\theta(1-\hat\theta)
+= \frac{1}{1919}\frac{997}{1919}\frac{922}{1919} \approx 0.00013,
 \ \ \ \widehat{\se} \approx 0.0114.
 \]
 Plugging in,
@@ -168,7 +168,7 @@ A 95\% confidence interval for $\theta$ is given by
 \end{sol}
 
 \item[(7)] In 1861, 10 essays appeared in the New Orleans Daily Crescent. They
-were signed ``Quintus Curtius Snodgras'' and some people suspected
+were signed ``Quintus Curtius Snodgrass'' and some people suspected
 they were actually written by Mark Twain. To investigate this, we will
 consider the proportion of three letter words found in an author's work.
 From eight Twain essays we have:
