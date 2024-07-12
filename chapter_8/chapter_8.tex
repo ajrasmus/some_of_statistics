@@ -1,0 +1,96 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\MSE}{\textsc{mse}}
+\newcommand{\bias}{\mathsf{bias}}
+\newcommand{\CDF}{\textsc{cdf}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 7 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(1)] Consider the data in Example 8.6. Find the plug-in estimate of the
+correlation coefficient. Estimate the standard error using the bootstrap.
+Find a 95 percent confidence interval using the normal, pivotal, and
+percentile methods.
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_8/1.ipynb}{1.ipynb}.
+\end{sol}
+
+\item[(2)] (Computer Experiment.) Conduct a simulation to compare the various
+bootstrap confidence interval methods. Let $n = 50$ and let
+$T(F)=\int (x-\mu)^3 dF(x)/\sigma^3$ be the skewness. Draw $Y_1,\ldots,Y_n \sim N(0,1)$
+and set $X_i=e^{Y_i}, i=1,\ldots,n$. Construct the three types of bootstrap 95
+percent intervals for $T(F)$ from the data $X_1,\ldots,X_n$ . Repeat this whole
+thing many times and estimate the true coverage of the three intervals.
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_8/2.ipynb}{2.ipynb}.
+\end{sol}
+
+\item[(3)] Let
+\[
+X_1,\ldots,X_n \sim t_3
+\]
+where $n = 25$. Let $\theta = T(F) = (q_{.75} - q_{.25})/1.34$ where $q_p$ denotes the
+$p^{\text{th}}$ quantile. Do a simulation to compare the coverage and length of the
+following confidence intervals for $\theta$: (i) normal interval with standard
+error from the bootstrap, (ii) bootstrap percentile interval, and (iii)
+pivotal bootstrap interval.
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_8/3.ipynb}{3.ipynb}.
+\end{sol}
+
+
+\end{enumerate}
+\end{document}
