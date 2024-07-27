@@ -253,5 +253,77 @@ error of $\hat \psi$.
 Find an approximate 90 percent confidence interval for $\psi$ using (i) the delta
 method and (ii) the parametric bootstrap.
 \end{enumerate}
+
+\begin{sol}
+\begin{enumerate}[(a)]
+\item The joint PDF for $X_1,X_2$ is
+\[
+f_{X_1,X_2}(x_1,x_2)=f_{X_1}(x_1)f_{X_2}(x_2) \text{ and }
+\log f_{X_1,X_2}(x_1,x_2) = \log f_{X_1}(x_1) + \log f_{X_2}(x_2).
+\]
+This shows that the $\MLE$ for the pair $(p_1,p_2)$ is $(\hat p_1,\hat p_2)$
+where $\hat p_i$ is the $\MLE$ for $p_i$. So let's compute $\hat p_i$.
+If $X\sim \Binom(n,p)$ the likelihood is
+\[
+\log f(X;p) = \log \binom{n}{X} + X\log p + (n-X)\log(1-p)
+\]
+and the derivative with respect to $p$ is
+\[
+\frac{X}{p} - \frac{n-X}{1-p}.
+\]
+Setting this equal to zero and solving for $p$ yields the $\MLE$
+$\hat p = \frac{X}{n}$. So $\hat p_i = \frac{X_i}{n_i}$. By
+equivariance
+\[
+\hat \psi = \hat p_1 - \hat p_2 = \frac{X_1}{n_1} - \frac{X_2}{n_2}.
+\]
+
+\item We have that $\ell_2$ is equal to
+\[
+\log \binom{n_1}{X_1} + X_1 \log p_1 + (n_1 - X_1)\log(1-p_1)
++ \log \binom{n_2}{X_2} + X_2 \log p_2 + (n_2 - X_2) \log(1-p_2).
+\]
+In the Fisher information matrix it is easy to see that $H_{12}=H_{21}=0$
+and
+\[
+H_{11} =
+\frac{\partial}{\partial p_1} \left(\frac{X_1}{p_1} - \frac{n_1-X_1}{1-p_1}\right)
+= -\frac{X_1}{p_1^2} - \frac{n_1 - X_1}{(1-p_1)^2}
+\]
+and similarly for $H_{22}$. We have
+\[
+\E(H_{11}) = -\frac{n_1 p_1}{p_1^2} - \frac{n_1 - n_1 p_1}{(1-p_1)^2}
+= \frac{-n_1}{p_1(1-p_1)}
+\]
+and similarly for $\E(H_{22})$. Thus,
+\[
+I_2(p_1,p_2) = \begin{pmatrix}
+\frac{n_1}{p_1(1-p_1)} & 0 \\
+0 & \frac{n_2}{p_2(1-p_2)}
+\end{pmatrix}
+\]
+
+\item We have $g(p_1,p_2)=\psi = p_1 - p_2$ so
+\[
+\nabla g = \begin{pmatrix} 1 \\ -1 \end{pmatrix}.
+\]
+By part (c),
+\[
+J_2(p_1,p_2) = \begin{pmatrix}
+\frac{p_1(1-p_1)}{n_1} & 0 \\
+0 & \frac{p_2(1-p_2)}{n_2}
+\end{pmatrix}.
+\]
+By Theorem 9.28, we may estimate the standard error of $\hat \psi$ as
+\[
+\hat{\se}(\hat \psi) = \sqrt{(\hat \nabla g)^T \hat J_n (\hat \nabla g)} =
+\left(\frac{\hat p_1(1-\hat p_1)}{\hat n_1} + \frac{\hat p_2 (1-\hat p_2)}{\hat n_2}\right)^{1/2}.
+\]
+
+\item See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_9/7.ipynb}{7.ipynb}.
+
+\end{enumerate}
+\end{sol}
 \end{enumerate}
 \end{document}
