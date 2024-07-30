@@ -205,7 +205,7 @@ See the Jupyter Notebook
 \href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_9/3.ipynb}{3.ipynb}.
 \end{sol}
 
-\item Let $X_1,\ldots,X_n\sim \Poiss(\lambda)$. Find the method of moments estimator,
+\item[(5)] Let $X_1,\ldots,X_n\sim \Poiss(\lambda)$. Find the method of moments estimator,
 the maximum likelihood estimator and the Fisher information $I(\lambda)$.
 
 \begin{sol}
@@ -324,6 +324,37 @@ By Theorem 9.28, we may estimate the standard error of $\hat \psi$ as
 \href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_9/7.ipynb}{7.ipynb}.
 
 \end{enumerate}
+\end{sol}
+
+\item[(8)] Find the Fisher information matrix for Example 9.29.
+
+\begin{sol}
+We did this as part of the solution to Exercise (3). The answer is
+\[
+I_n(\theta) = \frac{n}{\sigma^2} \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix}.
+\]
+See the solution to part b of Exercise (3).
+\end{sol}
+
+\item[(10)] Let $X_1,\ldots, X_n \sim \Unif(0,\theta)$. The $\MLE$ is
+$\hat\theta = X_{(n)}=\max\{X_1,\ldots,X_n\}$.
+Generate a dataset of size $50$ with $\theta=1$.
+\begin{enumerate}[(a)]
+\item Find the distribution of $\hat \theta$ analytically.
+Compare the true distribution
+of $\hat \theta$ to the histograms from the parametric and nonparametric
+bootstraps.
+\item This is a case where the nonparametric bootstrap does very poorly.
+Show that for the parametric bootstrap $\P(\hat \theta^*=\hat \theta)=0$,
+but for the
+nonparametric bootstrap $\P(\hat \theta^*=\hat\theta)\approx .632$.
+Hint: show that, $\P(\hat \theta^*=\hat \theta)=1 - (1-(1/n))^n$
+then take the limit as $n$ gets large. What is the implication of this?
+\end{enumerate}
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_9/10.ipynb}{10.ipynb}.
 \end{sol}
 \end{enumerate}
 \end{document}
