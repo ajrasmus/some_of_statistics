@@ -1,0 +1,155 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\Gam}{\operatorname{Gamma}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\MSE}{\textsc{mse}}
+\newcommand{\bias}{\mathsf{bias}}
+\newcommand{\CDF}{\textsc{cdf}}
+\newcommand{\MLE}{\textsc{mle}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 9 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(2)] Let $X\sim \Poiss(\lambda)$. Use Chebyshev's inequality to show that
+$\P(X\geq 2\lambda) \leq 1/\lambda$.
+
+\begin{sol}
+We have $\E(X)=\lambda=\V(X)$. Thus
+\[
+\P(X\geq 2\lambda) =\P(X-\lambda\geq \lambda)\leq \P(|X-\lambda|\geq \lambda)
+\leq \lambda / \lambda^2=1/\lambda.
+\]
+\end{sol}
+
+\item[(3)] Let $X_1,\ldots,X_n\sim\Bern(p)$ and $\overline X_n = n^{-1}\sum_{i=1}^n X_i$.
+Bound $\P(|\overline X_n - p|>\epsilon)$ using Chebyshev's inequality and
+using Hoeffding's inequality.
+Show that, when $n$ is large, the bound from Hoeffding's inequality is
+smaller than the bound from Chebyshev's inequality.
+
+\begin{sol}
+We have $\E(\overline X_n)=p$ and (assuming the $X_i$ are independent)
+\[
+\V(\overline X_n) = \frac{1}{n^2} \sum \V(X_i) = \frac{1}{n^2} \sum p(1-p) =
+\frac{p(1-p)}{n}.
+\]
+
+Chebyshev's inequality gives
+\[
+\P(|\overline X_n - p| > \epsilon) \leq \frac{p(1-p)}{n\epsilon^2}.
+\]
+
+Hoeffding's inequality gives
+\[
+\P(|\overline X_n - p| > \epsilon) \leq 2e^{-2n\epsilon^2}.
+\]
+
+The bound from Hoeffding's inequality divided by the bound from Chebyshev's
+inequality approaches 0 as $\epsilon\to \infty$, as can be shown easily using
+e.g. L'H\^opital's rule.
+\end{sol}
+
+\item[(4)] Let $X_1,\ldots,X_n \sim \Bern(p)$.
+\begin{enumerate}[(a)]
+\item Let $\alpha>0$ be fixed and define
+\[
+\epsilon_n = \sqrt{\frac{1}{2n}\log\left(\frac{2}{\alpha}\right)}.
+\]
+Let $\hat p_n = n^{-1} \sum_{i=1}^n X_i$.
+Define $C+n=(\hat p_n - \epsilon_n, \hat p_n + \epsilon_n)$. Use Hoeffding's
+inequality to show that
+\[
+\P(C_n \text{ contains } p) \geq 1-\alpha.
+\]
+In practice, we truncate the interval so it does not go below 0 or above 1.
+\item (Computer Experiment.) Let's examine the properties of this confidence
+interval. Let $\alpha=0.05$ and $p=0.4$. Conduct a simulation study
+to see how often the interval contains $p$ (called the coverage). Do this
+for various values of $n$ between 1 and 10000. Plot the coverage versus $n$.
+\item Plot the length of the interval versus $n$. Suppose we want the length
+of the interval to be no more than $.05$. How large should $n$ be?
+\end{enumerate}
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_4/4.ipynb}{4.ipynb}.
+\end{sol}
+
+\item[(6)] Let $Z\sim N(0,1)$. Find $\P(|Z|>t)$ and plot this as a function of $t$.
+From Markov's inequality, we have the bound $\P(|Z|>t) \leq \frac{\E|Z|^k}{t^k}$
+for any $k > 0$. Plot these bounds for $k = 1,2,3,4,5$ and compare them to the
+true value of $\P(|Z|>t)$. Also, plot the bound from Mill's inequality.
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_4/6.ipynb}{6.ipynb}.
+\end{sol}
+
+\item[(7)] Let $X_1,\ldots,X_n\sim N(0,1)$. Bound $\P(|\overline X_n|>t)$
+using Mill's inequality, where $\overline X_n = n^{-1}\sum_{i=1}^n X_i$.
+Compare to the Chebyshev bound.
+\end{enumerate}
+
+\begin{sol}
+We have $\overline X_n \sim N(0,1/n)$ and hence
+$\sqrt n \overline X_n \sim N(0,1)$. By Mill's inequality,
+\[
+\P(|\overline X_n| > t) = \P(\sqrt n |\overline X_n| > \sqrt n t)
+\leq \sqrt{\frac{2}{\pi}} \frac{e^{-nt^2/2}}{\sqrt n t}.
+\]
+By Chebyshev's inequality,
+\[
+\P(|\overline X_n| \geq t) \leq \frac{1}{nt^2}.
+\]
+For $t\gg 0$, Mill's inequality gives a much better (i.e. smaller) upper bound
+than Chebyshev's inequality. On ther other hand for $t\approx 0$ neither
+inequality tells us anything useful.
+\end{sol}
+
+\end{document}
