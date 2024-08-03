@@ -1,0 +1,151 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\Gam}{\operatorname{Gamma}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\MSE}{\textsc{mse}}
+\newcommand{\bias}{\mathsf{bias}}
+\newcommand{\CDF}{\textsc{cdf}}
+\newcommand{\MLE}{\textsc{mle}}
+\newcommand{\toP}{\xrightarrow{P}}
+\newcommand{\toqm}{\xrightarrow{\text{qm}}}
+
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 5 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(1)] Let $X_1,\ldots,X_n$ be IID with finite mean $\mu=\E(X_1)$
+and finite variance $\sigma^2=\V(X_1)$. Let $\overline X_n$ be the sample mean
+and let $S_n^2$ be the sample variance.
+\begin{enumerate}[(a)]
+\item Show that $\E(S_n^2)=\sigma^2$.
+\item Show that $S_n^2 \toP \sigma^2$. Hint: Show that
+$S_n^2=c_n n^{-1}\sum_{i=1}^n X_i^2 - d_n\overline X_n^2$
+where $c_n\to 1$ and $d_n\to 1$. Apply the law of large numbers to
+$n^{-1}\sum_{i=1}^n X_i^2$
+and to $\overline X_n$ . Then use part (e) of Theorem 5.5.
+\end{enumerate}
+
+\begin{sol}
+\begin{enumerate}[(a)]
+\item We have
+\[
+\E(S_n^2) = \frac{1}{n-1} \sum \E[(X_i - \overline X_n)^2] \text{ and }
+\E(X_i-\overline X_n) = 0.
+\]
+So $\E(S_n^2)=\frac{1}{n-1} \sum \V(X_i - \overline X_n)$. We have
+\[
+\V(X_i-\overline X_n)=\V(X_i) + \V(\overline X_n) - 2\Cov(X_i,\overline X_n).
+\]
+By independence of the $X_i$, $\V(\overline X_n)=\sigma^2/n$. On the other hand,
+$\Cov(X_i, \overline X_n)$ is equal to
+\[
+\E((X_i-\mu)(\overline X_n-\mu)) =
+\E\left(\frac{1}{n}\sum (X_i-\mu) (X_j-\mu)\right) = \frac{1}{n}\sum \Cov(X_i,X_j).
+\]
+Every term in this sum is zero except for $\Cov(X_i,X_i)=\V(X_i)$. So
+$\Cov(X_i,\overline X_n)=\sigma^2/n$. Thus,
+\[
+\V(X_i-\overline X_n)=\sigma^2 + \sigma^2/n-2\sigma^2/n = \frac{(n-1)\sigma^2}{n}
+\]
+for each $i$ and
+\[
+\E(S_n^2)=\frac{1}{n-1} \sum \V(X_i - \overline X_n) =
+\frac{n}{n-1}\cdot \frac{(n-1)\sigma^2}{n} = \sigma^2.
+\]
+
+\item Following the hint,
+\[
+S_n^2 = \frac{1}{n-1} \sum (X_i^2 - 2X_i \overline X_n + \overline X_n^2) =
+\frac{1}{n-1} \sum X_i^2 - \frac{2n}{n-1} \overline X_n^2 + \frac{n}{n-1}\overline X_n^2
+\]
+which is equal to
+\[
+\frac{n}{n-1} \frac{1}{n} \sum X_i^2 - \frac{n}{n-1} \overline X_n^2
+= \frac{c_n}{n} \sum X_i^2 - d_n \overline X_n^2
+\]
+where of course $c_n=d_n\to 1$. By the law of large numbers $\overline X_n\toP\mu$
+as $n\to\infty$. Using the LLN plus independence of the $X_i^2$ we also get
+$\frac{1}{n}\sum X_i^2 \toP \E(X_1^2)=\sigma^2+\mu^2$. Thus by parts (a) and (d)
+of Theorem 5.5,
+\[
+S_n^2 \toP \sigma^2+\mu^2 - \mu^2 = \sigma^2.
+\]
+\end{enumerate}
+\end{sol}
+
+\item[(2)] Let $X_1,X_2,\ldots$ be a sequence of random variables.
+Show that $X_n\toqm b$ if and only if
+\[
+\lim_{n\to\infty} \E(X_n) = b \text{ and } \lim_{n\to\infty} \V(X_n) = 0.
+\]
+
+\begin{sol}
+The expected value $\E[(X_n-b)^2]$ is equal to
+\[
+\E(X_n^2) - 2b\E(X_n) + b^2 =
+\V(X_n) + \E(X_n)^2 - 2b\E(X_n) + b^2 = \V(X_n) + (\E(X_n) - b)^2.
+\]
+Since both terms are non-negative, $\E[(X_n-b)^2]\to 0$ if and only if
+$\E(X_n)\to b$ and $\V(X_n)\to 0$, as claimed.
+\end{sol}
+
+\item[(3)] Let $X_1,\ldots,X_n$ be IID and let $\mu=\E(X_1)$. Suppose that the
+variance is finite. Show that $\overline X_n \toqm \mu$.
+
+\begin{sol}
+\[
+\E(\overline X_n) = \mu \text{ and } \V(\overline X_n) = \frac{1}{n} \V(X_1) \to 0
+\text{ as } n\to\infty.
+\]
+Hence by Exercise (2), $\overline X_n \toqm \mu$.
+\end{sol}
+\end{enumerate}
+
+
+\end{document}
