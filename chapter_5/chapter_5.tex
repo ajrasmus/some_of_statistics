@@ -145,7 +145,136 @@ variance is finite. Show that $\overline X_n \toqm \mu$.
 \]
 Hence by Exercise (2), $\overline X_n \toqm \mu$.
 \end{sol}
+
+\item[(5)] Let $X_1,\ldots,X_n\sim \Bern(p)$. Prove that
+\[
+\frac{1}{n}\sum_{i=1}^n X_i^2\toP p \text{ and }
+\frac{1}{n}\sum_{i=1}^n X_i^2\toqm p.
+\]
+
+\begin{sol}
+\[
+\E\left(\frac{1}{n}\sum X_i\right) = \frac{1}{n}np = p \text{ and }
+\V\left(\frac{1}{n}\sum X_i\right) = \frac{1}{n^2}np(1-p)\to 0
+\text{ as } n\to \infty.
+\]
+Thus by Exercise (2), $\frac{1}{n}\sum X_i\toqm p$. Since convergence in quadratic
+mean implies convergence in probability, the sequence also converges to $p$
+in probability.
+\end{sol}
+
+\item[(6)] Suppose that the height of men has mean $68$ inches and standard deviation
+$2.6$ inches. We draw $100$ men at random. Find (approximately)
+the probability that the average height of men in our sample will be at
+least $68$ inches.
+
+\begin{sol}
+Let $X_1,\ldots,X_{100}$ be the heights and $\overline X$ be the average.
+Set $\mu=68$ and $\sigma=2.6$.
+By the Central Limit Theorem we may approximate
+\[
+\P(\overline X \geq 68) =
+\P\left(\frac{\sqrt{100}(\overline X - 68)}{2.6} \geq 0\right) \approx
+\P(Z\geq 0) = \frac{1}{2}
+\]
+where $Z$ is a standard normal.
+\end{sol}
+
+\item[(8)] Suppose we have a computer program consisting of $n = 100$ pages of
+code. Let $X_i$ be the number of errors on the $i^{\text{th}}$ page of code.
+Suppose that the $X_i's$ are Poisson with mean 1 and that they are independent.
+Let $Y=\sum_{i=1}^n X_i$ be the total number of errors. Use the central limit
+theorem to approximate $\P(Y<90)$.
+
+\begin{sol}
+We have $\V(Y)=\sum \V(X_i)=n$ and similarly $\E(Y)=n$.
+Consider $\overline X_n=\frac{1}{n}Y$. We have $\E(\overline X_n)=1$
+and $\V(\overline X_n)=1/n$. Consider
+\[
+Z = \frac{\overline X_n - \E \overline X_n}{\sqrt{\V \overline X_n}}
+= \sqrt{n}(\overline X_n -1).
+\]
+By the central limit theorem we can approximate $Z$ by a standard normal and
+\[
+\Phi(z) \approx \P(Z\leq z) = \P(\overline X_n \leq 1 + z/\sqrt{n})
+= \P(Y \leq n + \sqrt{n}z).
+\]
+Solving for $n+\sqrt{n}z=90$ we find $z=(90-n)/\sqrt{n}=-1$. Thus,
+\[
+\P(Y\leq 90) = \P(Z\leq -1) \approx \Phi(-1) = 0.15865\ldots.
+\]
+\end{sol}
+
+\item[(11)] Suppose that $X_n\sim N(0,1/n)$ and let $X$ be a random variable with
+distribution $F(x) = 0$ if $x<0$ and $F(x) = 1$ if $x\geq 0$. Does $X_n$ converge
+to $X$ in probability? (Prove or disprove). Does $X_n$ converge to $X$ in
+distribution? (Prove or disprove).
+
+\begin{sol}
+It suffices to show that $X_n\toP X$. We have $\P(X=0)=1$.
+Thus, it suffices to show that $\P(|X_n|>\epsilon)\to 0$. This is clear.
+\end{sol}
+
+\item[(14)] Let $X_1,\ldots,X_n\sim \Unif(0,1)$. Let $Y_n=\overline X_n^2$.
+Find the limiting distribution of $Y_n$.
+
+\begin{sol}
+We'll apply the delta method. We have $\mu=\E(X_i)=1/2$ and
+$\sigma=\sqrt{\V(X_i)}=\sqrt{1/12}$. By the Central Limit Theorem,
+$\sqrt{n}(\overline X_n - \mu)/\sigma\rightsquigarrow Z$ where $Z$ is a
+standard normal random variable. Set $g(x)=x^2$ so that $g'(x)=2x$.
+By the delta method, we have
+\[
+Y_n \approx N\left(g(\mu), g'(\mu)^2 \frac{\sigma^2}{n}\right) =
+N\left(\frac{1}{4}, \frac{1}{12n}\right)
+\]
+for large $n$. In particular, $Y_n \rightsquigarrow \frac{1}{4}$.
+\end{sol}
+
+\item[(15)] Let
+\[
+\begin{pmatrix} X_{11} \\ X_{21} \end{pmatrix},
+\begin{pmatrix} X_{12} \\ X_{22} \end{pmatrix},
+\ldots,
+\begin{pmatrix} X_{1n} \\ X_{2n} \end{pmatrix}
+\]
+be IID random vectors with mean $\mu=(\mu_1,\mu_2)$ and variance $\Sigma$.
+Let
+\[
+\overline X_1 = \frac{1}{n}\sum_{i=1}^n X_{1i}, \ \ \
+\overline X_2 = \frac{1}{n}\sum_{i=1}^n X_{2i}
+\]
+and define $Y_n=\overline X_1/\overline X_2$.
+Find the limiting distribution of $Y_n$.
 \end{enumerate}
 
-
+\begin{sol}
+We will again apply the delta method. By the Central Limit Theorem,
+\[
+\sqrt{n}\left(\begin{pmatrix} \overline X_1 \\ \overline X_2 \end{pmatrix} - \mu \right)
+\rightsquigarrow N(0,\Sigma)
+\]
+where $\Sigma$ is the variance matrix for the random vectors.
+Set $g(x,y)=x/y$. We have
+\[
+\nabla g = \frac{1}{y} \begin{pmatrix} 1 \\ -\frac{x}{y} \end{pmatrix} \text{ so }
+\nabla \mu = \frac{1}{\mu_2} \begin{pmatrix} 1 \\ -\frac{\mu_1}{\mu_2}\end{pmatrix}.
+\]
+We may write
+$\Sigma = \begin{pmatrix} v_{11} & v_{12} \\ v_{12} & v_{22} \end{pmatrix}$.
+Hence
+\[
+\nabla_\mu^T \Sigma \nabla_\mu =
+\frac{1}{\mu_2^4} \begin{pmatrix} \mu_2 & -\mu_1\end{pmatrix}
+\begin{pmatrix} v_{11} & v_{12} \\ v_{12} & v_{22} \end{pmatrix}
+\begin{pmatrix} \mu_2 \\ -\mu_1 \end{pmatrix} =
+\frac{1}{\mu_2^4}(v_{11}\mu_2^2 - 2v_{12}\mu_1\mu_2 + v_{22}\mu_1^2).
+\]
+By the delta method,
+\[
+\sqrt{n}(\overline X_1/\overline X_2 - \mu_1/\mu_2) \rightsquigarrow
+N\left(0,\frac{1}{\mu_2^4}(v_{11}\mu_2^2 - 2v_{12}\mu_1\mu_2 + v_{22}\mu_1^2)\right).
+\]
+In particular $\overline X_1/\overline X_2 \rightsquigarrow \mu_1/\mu_2$.
+\end{sol}
 \end{document}
