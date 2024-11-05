@@ -1,0 +1,96 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 14 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+
+\item[(3)] (Computer Experiment.) Write a function to generate $\texttt{nsim}$
+observations from a $\text{Multinomial}(n,p)$ distribution.
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_14/3.ipynb}{3.ipynb}.
+\end{sol}
+
+\item[(4)] (Computer Experiment.) Write a function to generate $\texttt{nsim}$
+observations from a Multivariate normal with given mean $\mu$ and
+covariance matrix $\Sigma$.
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_14/4.ipynb}{4.ipynb}.
+\end{sol}
+
+\item[(5)] (Computer Experiment.) Generate 100 random vectors from a $N(\mu,\Sigma)$
+distribution where
+\[
+\mu = \begin{pmatrix} 3 \\ 8 \end{pmatrix},
+\Sigma = \begin{pmatrix} 1 & 1 \\ 1 & 2 \end{pmatrix}.
+\]
+Plot the simulation as a scatterplot. Estimate the mean and covariance
+matrix $\Sigma$. Find the correlation $\rho$ between $X_1$ and $X_2$. Compare this
+with the sample correlations from your simulation. Find a 95 percent
+confidence interval for $\rho$. Use two methods: the bootstrap and Fisher's
+method. Compare.
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_14/5.ipynb}{5.ipynb}.
+\end{sol}
+
+\item[(6)] (Computer Experiment.) Repeat the previous exercise 1000 times. Compare
+the coverage of the two confidence intervals for $\rho$.
+
+\begin{sol}
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_14/6.ipynb}{6.ipynb}.
+\end{sol}
+
+\end{enumerate}
+\end{document}
