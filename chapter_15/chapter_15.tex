@@ -1,0 +1,87 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 15 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+
+\item[(4)] The New York Times (January 8, 2003, page A12) reported the following
+data on death sentencing and race, from a study in Maryland:
+
+\begin{center}
+\begin{tabular}{l l l}
+& Death Sentence & No Death Sentence \\
+Black Victim & 14 & 641 \\
+White Victim & 62 & 594 \\
+\end{tabular}
+\end{center}
+
+Analyze the data using the tools from this chapter. Interpret the results.
+Explain why, based only on this information, you can't make causal
+conclusions. (The authors of the study did use much more information
+in their full report.)
+
+\item[(6)]
+
+Estimate the correlation between temperature and latitude using the
+data from
+
+\href{http://lib.stat.cmu.edu/DASL/Datafiles/USTemperatures.html}
+{http://lib.stat.cmu.edu/DASL/Datafiles/USTemperatures.html}
+
+Use the correlation coefficient. Provide estimates, tests, and confidence
+intervals.
+
+\item[(7)] Test whether calcium intake and drop in blood pressure are associated.
+Use the data in
+
+\href{http://lib.stat.cmu.edu/DASL/Datafiles/Calcium.html}
+{http://lib.stat.cmu.edu/DASL/Datafiles/Calcium.html}
+
+\end{enumerate}
+\end{document}
