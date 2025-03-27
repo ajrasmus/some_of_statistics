@@ -1,0 +1,192 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 1 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(5)]
+
+The sample space is
+\[\Omega = \{HH, THH, HTH, HTTH, THTH, TTHH, HTTTH, THTTH, \ldots\}.\]
+I.e. an element of $\Omega$ is a sequence in $T$ and $H$
+of length $k$ with the last element
+being $H$ and exactly one of the first $k-1$ elements being $H$.
+
+There are exactly $k-1$ sequences in $\Omega$ of length $k$, corresponding
+to the $k-1$ choices for where to put an $H$ in the initial sequence of
+length $k-1$. Each length $k$ sequence has probability $(1/2)^k$ of occurring.
+Hence the probability that exactly $k$ tosses are required is $(k-1)(1/2)^k$
+
+\item[(8)]
+
+We have $\P(\bigcap A_i) = 1 -\P(\bigcup A_i^c) \geq 1 - \sum \P(A_i^c)$
+where $\cdot^c$ denotes the complement. Since $\P(A_i^c)=0$ for each $i$
+we have $\P(\bigcap A_i)=0$, as claimed.
+
+\item[(11)]
+We have $\P(A^cB^c)=\P((A\cup B)^c)=1-\P(A\cup B)=1-\P(A)-\P(B)+\P(AB)$.
+Since $A$ and $B$ are independent this is
+\[
+1-\P(A)-\P(B)+\P(A)\P(B)=(1-\P(A))(1-\P(B)) = \P(A^c)\P(B^c).
+\]
+
+
+\item[(12)]
+The sample space of possible sequences of sides that we can see is
+$\Omega = \{RR, GG, RG, GR\}$ where $R$ denotes a red side and $G$ denotes
+a green side. The elements of $\Omega$ have probability $1/3$, $1/3$,
+$1/6$, and $1/6$. Hence the probability that the other side is green, given
+that the first side we see is green is
+\[
+\frac{1/3}{1/3+1/6} = \frac{2}{3}.
+\]
+
+\item[(13)]
+\begin{enumerate}[(a)]
+\item The sample space is
+\[
+\Omega = \{HT, TH, HHT, TTH, HHHT, TTTH, HHHHT, TTTTH, \ldots\}
+\]
+I.e. an element of $\Omega$ is a sequence of length $n$ where the first
+$n-1$ elements are $H$ and the last element is $T$, or vice versa.
+In particular, for any $n\geq 2$ there are exactly two sequences in $\Omega$
+of length $n$.
+
+\item The probability of three tosses being required is $2(1/2)^3=1/4$ since
+there are two elements of $\Omega$ of length $3$, both with probability
+$(1/2)^3$.
+\end{enumerate}
+
+\item[(15)]
+
+\begin{enumerate}[(a)]
+\item Order the children from youngest to oldest. Thus the sample space
+consists of sequences of length three in $B$ and $N$, $B$ indicating
+that a child has blue eyes and $N$ indicating that they do not have blue
+eyes:
+\[
+\Omega = \{NNN, BNN, NBN, NNB, BBN, BNB, NBB, BBB\}.
+\]
+If at least one child has blue eyes then the element of the sample space
+$\Omega$ can be anything except for $NNN$. The probability of this occuring
+is \[
+3(1/4)(3/4)^2 + 3(1/4)^2(3/4) + (1/4)^3.
+\]
+Here the first term is the probability of one of the sequences $BNN,NBN,NNB$,
+the second term is the probability of one of the sequences $BBN, BNB, NBB$,
+and the third term is the probability of $BBB$. So the probability that
+at least two children have blue eyes is
+\[3(1/4)^2(3/4) + (1/4)^3.\]
+The probability that at least two children have blue eyes given that one child
+has blue eyes is
+\[
+\frac{3(1/4)^2(3/4) + (1/4)^3}{3(1/4)(3/4)^2 + 3(1/4)^2(3/4) + (1/4)^3}
+=\frac{10}{37}.
+\]
+\item If the first child has blue eyes then the sequence is
+$BNN, BBN, BNB$, or $BBB$. The probability for this event is
+$(1/4)(3/4)^2 + 2(1/4)^2(3/4) + (1/4)^3$. The probability that the first child
+has blue eyes and at least two children have blue eyes is
+$2(1/4)^2(3/4) + (1/4)^3$. So the conditional probability is
+\[
+\frac{2(1/4)^2(3/4) + (1/4)^3}{(1/4)(3/4)^2 + 2(1/4)^2(3/4) + (1/4)^3}
+=\frac{7}{16}.
+\]
+\end{enumerate}
+
+\item[(19)]
+
+Let $M$ stand for Mac, $W$ for Windows, $L$ for Linux, and $V$ for virus.
+By Bayes's Theorem,
+\[
+\P(W|V) = \frac{\P(V|W)\P(W)}{\P(V|M)\P(M) +\P(V|W)\P(W) + \P(V|L)\P(L)}.
+\]
+Substituting yields that $\P(W|V)$ is
+\[
+\frac{(82/100)(50/100)}{(65/100)(30/100)+(82/100)(50/100)+(50/100)(20/100)}
+= \frac{82}{141} \approx 58.156 \%
+\]
+
+\item[(20)]
+
+\begin{enumerate}[(a)]
+\item By Bayes's Theorem:
+\[
+\P(C_i | H) = \frac{\P(H|C_i)\P(C_i)}{\sum_j \P(H | C_j)\P(C_j)}=
+\frac{p_i(1/5)}{\sum_j p_j(1/5)}=\frac{p_i}{1/4+1/2+3/4+1} = \frac{2p_i}{5}.
+\]
+I.e. the probabilities are
+\[
+0, \ 1/10, \ 1/5, \ 3/10, \ 2/5.
+\]
+\item We have $\P(H_2|H_1)=\P(H_1H_2)/\P(H_1)$ and $\P(H_1)=\sum p_i/5 =1/2$.
+We also have
+\[
+\P(H_1H_2) = \sum_{i=1}^5 \P(H_1H_2C_i) = \sum_i \P(H_1H_2|C_i)\P(C_i)
+=1/5 \sum_i p_i^2 =3/8.
+\]
+Therefore
+\[
+\P(H_2|H_1) = \frac{3/8}{1/2} = \frac{3}{4}.
+\]
+\item By Bayes's Theorem:
+\[
+\P(C_i|B_4)= \frac{\P(B_4|C_i)\P(C_i)}{\sum_j \P(B_4|C_j)\P(C_j)}
+=\frac{(1-p_i)^3p_i(1/5)}{\sum_j(1-p_j)^3p_j(1/5)} =
+\frac{128(1-p_i)^3p_i}{23}.
+\]
+The probabilities are
+\[
+0, \ 27/46, \ 8/23, \ 3/46, \ 0.
+\]
+\end{enumerate}
+
+\item[(22)]
+
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_1/22.ipynb}{22.ipynb}.
+
+\item[(23)]
+
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_1/23.ipynb}{23.ipynb}.
+
+\end{enumerate}
+\end{document}

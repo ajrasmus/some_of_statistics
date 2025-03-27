@@ -1,0 +1,205 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 13 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+
+\item[(2)]
+We have
+\[
+\hat \beta_1 = \frac{(X^n - \overline{X_n}1^n)^T
+(Y^n - \overline{Y_n}1^n)}{(X^n - \overline{X_n}1^n)^T
+(X^n - \overline{X_n}1^n)}
+\]
+where $1^n$ is the vector of all 1's, $X^n=(X_1,\ldots,X_n)^T$,
+and $Y^n=(Y_1,\ldots,Y_n)^T$. Hence, $\V(\hat \beta_1)$ is equal to
+\[
+\frac{1}{(X^n - \overline{X_n}1^n)^T
+(X^n - \overline{X_n}1^n)}
+(X^n - \overline{X_n}1^n)^T \Sigma (X^n - \overline{X_n}1^n)
+\]
+where $\Sigma$ is the covariance matrix of $Y^n - \overline{Y_n} 1^n$.
+Let's compute $\Sigma$.
+
+We have $\V(Y_i - \overline{Y_n})=
+\V(Y_i) + \V(\overline{Y_n}) - 2\Cov(Y_i,\overline{Y_n})$.
+We have $\V(Y_i)=\V(\beta_0+\beta_1X_i+\epsilon_i)=\V(\epsilon_i)=\sigma^2$.
+Similarly, $\V(\overline{Y_n})=\frac{\sigma^2}{n}$. Finally,
+$\Cov(Y_i,Y_j)=\Cov(\epsilon_i,\epsilon_j)=\sigma^2 \delta_{ij}$
+where $\delta_{ij}$ is the Dirac delta: $\delta_{ij}=1$ if $i=j$ and
+$\delta_{ij}=0$ otherwise.
+By bilinearity of $\Cov$,
+\[
+\Cov(Y_i,\overline{Y_n}) = \frac{1}{n} \sum_{j=1}^n \Cov(Y_i,Y_j)=\frac{\sigma^2}{n}.
+\]
+Hence
+\[
+\V(Y_i-\overline{Y_n}) = \sigma^2\left(1+\frac{1}{n} - 2\frac{1}{n}\right) =
+\frac{(n-1)\sigma^2}{n}.
+\]
+For $i\neq j$ we have
+\[
+\Cov(Y_i - \overline{Y_n}, Y_j - \overline{Y_n}) =
+\Cov(Y_i, Y_j) - \Cov(Y_i, \overline{Y_n}) - \Cov(Y_j, \overline{Y_n}) +
+\V(\overline{Y_n}).
+\]
+By our previous calculations this is equal to $-\sigma^2/n$.
+
+Finally then,
+\[
+\Sigma = \frac{\sigma^2}{n}\begin{pmatrix}
+n-1 & -1 & -1 & -1 \\
+-1 & n-1 & -1 & -1 \\
+\vdots & \vdots  & \ddots & \vdots \\
+-1 & -1 & \ldots & n-1
+\end{pmatrix}
+\]
+and this yields
+\[
+\V(\hat \beta_1) = \frac{\sigma^2}{n} \cdot
+\frac{1}{\left(\sum (X_i - \overline{X_n})^2\right)^2} \cdot
+\left((n-1)\sum_{i=1}^n (X_i - \overline{X_n})^2 - \sum_{i\neq j}
+(X_i-\overline{X_n})(X_j-\overline{X_n})\right).
+\]
+We have that
+\[
+-\sum_{i=1}^n (X_i - \overline{X_n})^2 -
+\sum_{i\neq j}(X_i-\overline{X_n})(X_j-\overline{X_n}) =
+- \left(\sum_{i=1}^n (X_i-\overline{X_n})\right)^2 = 0.
+\]
+So
+$\V(\hat \beta_1)=\frac{\sigma^2}{\sum (X_i-\overline{X_n})^2}=\frac{\sigma^2}{ns_X^2}$,
+as claimed.
+
+From $\hat \beta_0 = \overline{Y_n} - \hat \beta_1 \overline{X_n}$, we see
+\[
+\Cov(\hat \beta_0, \hat \beta_1) = \Cov(\overline{Y_n},\hat \beta_1) -
+\overline{X_n} \Cov(\hat \beta_1, \hat \beta_1).
+\]
+By our previous calculations,
+\[
+\Cov(\overline{Y_n},\hat\beta_1) = \frac{1}{n s_X^2} \sum (X_i-\overline{X_n})
+\Cov(\overline{Y_n}, Y_i-\overline{Y_n}) = \frac{1}{n s_X^2}
+\sum (X_i - \overline{X_n})\left(\frac{\sigma^2}{n} - \frac{\sigma^2}{n}\right)
+= 0
+\]
+and this leaves $\Cov(\hat \beta_0, \hat \beta_1) = -\overline{X_n} \V(\hat \beta_1)$,
+as claimed.
+
+Finally,
+\[
+\V(\hat \beta_0) = \V(\overline{Y_n}) -
+2 \overline{X_n} \Cov(\overline{Y_n}, \hat \beta_1) + \overline{X_n}^2\V(\hat \beta_1)
+= \frac{\sigma^2}{n} + \frac{\sigma^2 \overline{X_n}^2}{ns_X^2} =
+\frac{\sigma^2(s_X^2 + \overline{X_n}^2)}{ns_X^2}
+\]
+and we calculate that $s_X^2+\overline{X_n}^2=\frac{1}{n}\sum X_i^2$.
+This gives the $(1,1)$ entry of the covariance matrix.
+
+\item[(3)]
+We assume $Y_i = \beta X_i + \epsilon_i$ where the $\epsilon_i$ are iid with
+variance $\sigma^2$.
+Our model is $\hat r(X)=\hat \beta X$. For data points $(Y_1,X_1), \ldots, (Y_n,X_n)$,
+the sum of squared residuals is
+$\sum \hat \epsilon_i^2 = \sum (Y_i - \hat \beta X_i)^2$. This function of $\hat \beta$
+is convex with a single local minimum. We have
+\[
+\frac{\partial}{\partial \hat\beta} \left(\sum \hat \epsilon_i^2\right) =
+2 \sum \left(-X_iY_i + \hat \beta X_i^2\right).
+\]
+Setting this equal to zero and solving for $\hat\beta$ yields
+\[
+\hat\beta = \frac{\sum X_iY_i}{\sum X_i^2} = \frac{X^n \cdot Y^n}
+{X^n \cdot X^n}.
+\]
+where $X^n = (X_1,\ldots,X_n)^T$ and similarly for $Y^n$. Considering
+$X^n$ to be constant, $\V(\hat \beta) =
+\frac{1}{(X^n \cdot X^n)^2} (X^n)^T \Sigma (X^n)$ where $\Sigma$ is the covariance
+matrix of $Y^n$. As in the previous exercise, $\Cov(Y_i,Y_j)=\sigma^2 \delta_{ij}$
+where $\delta_{ij}$ is the Dirac delta. So $\Sigma=\sigma^2 I$ where $I$ is the
+$n\times n$ identity matrix and
+\[
+\V(\hat\beta) = \frac{\sigma^2 X^n \cdot X^n}{(X^n \cdot X^n)^2}
+= \frac{\sigma^2}{\sum X_i^2}.
+\]
+
+As long as $\sum X_i^2 \to \infty$ we have $\E(\hat \beta)\to \beta$ and
+$\V(\hat \beta)\to 0$. Thus $\hat \beta$ converges to $\beta$ in quadratic mean
+and therefore also in probability (see e.g. exercise 5.2).
+
+\item[(6)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_13/6.ipynb}{6.ipynb}.
+
+\item[(7)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_13/7.ipynb}{7.ipynb}.
+
+\item[(8)]
+In this case, up to addition of a constant not depending on $\hat \beta$,
+the AIC is
+\[
+\text{AIC} = \ell_S - |S| = -n\log \sigma - \frac{1}{2\sigma^2}\sum_{i=1}^n
+(Y_i - (X \hat \beta)_i)^2 - |S|.
+\]
+Mallow's $C_p$ statistic is
+\[
+\hat R_{\text{tr}}(S) + 2 |S| \sigma^2 = \sum_{i=1}^n (Y_i - (X \hat \beta)_i)^2 +
+2 |S|\sigma^2.
+\]
+Thus, up to a adding a constant to $\text{AIC}$, which doesn't affect where the maximum
+$\text{AIC}$ is achieved, we have $C_p = - 2\sigma^2 \text{AIC}$. So the $\hat \beta$
+which maximizes $\text{AIC}$ is the same as the $\hat \beta$ which minimizes $C_p$.
+
+\item[(11)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_13/11.ipynb}{11.ipynb}.
+
+\end{enumerate}
+\end{document}

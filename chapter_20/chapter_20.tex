@@ -1,0 +1,199 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ol}{\overline}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 20 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+
+\item[(1)]
+\begin{enumerate}[(a)]
+\item We have
+\[
+\E(\hat f_n(x)) = \frac{1}{nh}\sum \E\left(K\left(\frac{x-X_i}{h}\right)\right)
+\]
+and
+\[
+K\left(\frac{x-X_i}{h}\right) =
+\begin{cases}
+1 & |x-X_i| \leq h/2 \\
+0 & \text{otherwise}.
+\end{cases}
+\]
+Hence the expected value of $K((x-X_i)/h)$ is
+\[
+\int K\left(\frac{x-y}{h}\right)f(y)dy = \int_{x-h/2}^{x+h/2} 1 \cdot f(y)dy.
+\]
+Plugging this in to the sum for $\E(\hat f_n(x))$ gives the identity for
+$\E(\hat f_n(x))$.
+
+By independence of the random variables $K((x-X_i)/h)$, we have
+\[
+\V(\hat f_n(x)) = \frac{1}{n^2h^2}\sum \V\left(K\left(\frac{x-X_i}{h}\right)\right).
+\]
+We have
+\[
+\V\left(K\left(\frac{x-X_i}{h}\right)\right) =
+\E\left(K\left(\frac{x-X_i}{h}\right)^2\right) -
+\E\left(K\left(\frac{x-X_i}{h}\right)\right)^2.
+\]
+But $K((x-X_i)/h)^2=K((x-X_i)/h)$ so by our previous calculations,
+\[
+\V\left(K\left(\frac{x-X_i}{h}\right)\right)
+=
+\int_{x-h/2}^{x+h/2}f(y)dy - \left(\int_{x-h/2}^{x+h/2}f(y)dy\right)^2
+\]
+plugging this in to the sum for $\V(\hat f_n(x))$ completes the proof.
+
+\item We have that
+\[
+\frac{1}{h}\int_{x-(h/2)}^{x+(h/2)}f(y)dy
+\]
+converges to the derivative of $F(y)=\int_0^y f(y)dy$ at $x$, i.e. $f(x)$.
+
+We may write the variance as
+\[
+\frac{1}{nh} \cdot \frac{1}{h} \int_{x-(h/2)}^{x+(h/2)}f(y)dy
+-
+\frac{1}{n} \cdot \frac{1}{h^2} \left(\int_{x-(h/2)}^{x+(h/2)} f(y)dy\right)^2.
+\]
+By our previous calculations $(\int_{x-(h/2)}^{x+(h/2)}f(y)dy)/h$ and
+$(\int_{x-(h/2)}^{x+(h/2)}f(y)dy)^2/h^2$ converge to $f(x)$ and $f(x)^2$,
+respectively. Since $1/nh\to 0$ and $1/n\to 0$ this implies that $\V(\hat f_n(x))\to 0$.
+
+Thus, $\hat f_n(x)$ converges to $f(x)$ in quadratic mean and therefore
+also in probability.
+\end{enumerate}
+
+\item[(2)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_20/2.ipynb}{2.ipynb}.
+
+\item[(3)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_20/3.ipynb}{3.ipynb}.
+
+\item[(4)]
+We have
+\[
+\E(L(g,\hat g)) = \E\left(\int (gx - \hat gx)^2dx\right) =
+\int \E(gx - \hat gx)^2 dx
+\]
+by changing the order of integration. This is equal to
+\[
+\int \E(gx - \E(\hat gx) + \E(\hat gx) - \hat gx)^2 dx
+\]
+The integrand is equal to
+\[
+v(x) + \E((gx - \E(\hat gx))^2  - 2(gx-\E(\hat gx))(\hat gx - \E(\hat gx)))
+\]
+so we need to confirm
+\[
+\E((gx - \E(\hat gx))^2  - 2(gx-\E(\hat gx))(\hat gx - \E(\hat gx))) = b(x)^2.
+\]
+We expand the argument to $\E(\cdot)$ as
+\[
+gx^2 - 2gx\E(\hat gx) + (\E\hat gx)^2 - 2(gx)(\hat gx) + 2(gx)\E(\hat gx) +
+2(\hat gx)\E(\hat gx) - 2 (\E\hat gx)^2
+\]
+and this is equal to
+\[
+- (\E \hat gx)^2 + gx^2 - 2(gx)(\hat gx) + 2(\hat gx)\E(\hat gx).
+\]
+Taking the expectation yields
+\[
+-(\E \hat gx)^2 + gx^2 - 2 gx(\E \hat gx) + 2(\E\hat gx)^2
+= (\E \hat gx)^2 - 2(gx)(\E\hat gx) + (gx)^2 = b(x)^2
+\]
+as claimed.
+
+\item[(5)]
+The derivation $\E(\hat f_n(x))=p_j/h$ was given on page 306. For the expression for
+$\V(\hat f_n(x))$, we have
+\[
+\V(\hat f_n(x))=\V(\nu_j/{nh})=\frac{1}{n^2h^2}\V\left(\sum_{i=1}^n I_{B_j}(X_i)\right)=
+\frac{1}{n^2h^2}\sum_{i=1}^n \V(I_{B_j}(X_i))
+\]
+by independence of the random variables $I_{B_j}(X_i)$ (where $I_{B_j}$ denotes
+the indicator function for $B_j$). Since $I_{B_j}^2 = I_{B_j}$, we have
+\[
+\V(I_{B_j}(X_i)) = \E(I_{B_j}(X_i)) - \E(I_{B_j}(X_i))^2 = p_j - p_j^2.
+\]
+Plugging this in yields
+\[
+\V(\hat f_n(x)) = n \frac{1}{n^2h^2} p_j(1-p_j),
+\]
+as claimed.
+
+\item[(6)]
+First consider the term $\int \hat f_n dx$. This is equal to
+\[
+\sum_j \int_{B_j} \hat f_n^2 dx = \sum_j \int_{B_j} \frac{\hat p_j^2}{h^2}dx
+= \frac{1}{h} \sum_j \hat p_j^2.
+\]
+Now consider the term $\frac{2}{n}\sum_i \hat f_{(-i)}(X_i)$. Suppose
+$X_i\in B_j$. Then $\hat f_{(-i)}(X_i)=\frac{\nu_j-1}{(n-1)h}$ since,
+leaving out $X_i$, there are $\nu_j-1$ $X_k$'s in $B_j$ and $n-1$ $X_k$'s total.
+Breaking the sum over $i$ into a sum over the $X_i$'s in $B_j$ for each $j$ yields
+\[
+\sum_i \hat f_{(-i)}(X_i) = \sum_j \nu_j \left(\frac{\nu_j-1}{(n-1)h}\right)
+= \sum_j \frac{\nu_j^2}{(n-1)h} - \sum_j \frac{\nu_j}{(n-1)h}
+\]
+since there are $\nu_j$ $X_i$'s in $B_j$ for each $j$. Finally then,
+\[
+\sum_i \hat f_{(-i)}(X_i) = \frac{n^2}{(n-1)h} \sum \hat p_j^2 - \frac{n}{(n-1)h}.
+\]
+So the cross-validation estimator of risk is
+\[
+\frac{1}{h} \sum_j \hat p_j^2 - \frac{2n}{(n-1)h} \sum \hat p_j^2 + \frac{2}{(n-1)h}
+= \frac{2}{(n-1)h} - \frac{n+1}{(n-1)h}\sum \hat p_j^2,
+\]
+as claimed.
+
+\end{enumerate}
+\end{document}

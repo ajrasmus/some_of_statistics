@@ -1,0 +1,200 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\MSE}{\textsc{mse}}
+\newcommand{\bias}{\mathsf{bias}}
+\newcommand{\CDF}{\textsc{cdf}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 7 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(2)]
+We have $p=T(F)=\int xdF$ so the plug-in estimator for $p$ is
+$\hat{p}=\frac{1}{n}\sum X_i = \overline{X_n}$. The standard error for
+$\overline{X_n}$ is $\sqrt{(p(1-p)/n}$ so the estimated standard error is
+$\sqrt{\hat p(1-\hat p)/n}$. Our approximate 90\% normal-based
+confidence interval is $T(\widehat F_n) \pm z \widehat{\se}$ where
+$z=\Phi^{-1}(1-\alpha/2)=\Phi^{-1}(0.95) \approx 1.64$. Plugging in,
+the interval is
+\[
+\hat p \pm 1.64 \sqrt{\hat p(1-\hat p)/n}.
+\]
+
+Similarly, we take $\hat q = \frac{1}{m}\sum Y_i$. Using Example 7.15, the plug-in
+estimator for $p-q$ is $\hat p - \hat q$ and the estimated standard error is
+\[
+\widehat{\se} =
+\sqrt{\frac{\hat p^2(1-\hat p)^2}{n^2} + \frac{\hat q^2(1-\hat q)^2}{m^2}}.
+\]
+Thus a 90\% confidence interval is
+\[
+\hat p - \hat q \pm
+1.64\sqrt{\frac{\hat p^2(1-\hat p)^2}{n^2} + \frac{\hat q^2(1-\hat q)^2}{m^2}}.
+\]
+
+\item[(3)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_7/3.ipynb}{3.ipynb}.
+
+\item[(5)]
+We have $\hat F_n(x) = \frac{1}{n} \sum I(X_i \leq x)$ so $\hat F_n(x) =
+\frac{1}{n} \sum Y_i$ where $Y_i$ is the random variable
+\[
+Y_i = \begin{cases}
+1 & X_i \leq x \\
+0 & X_i > x
+\end{cases}
+\]
+and $\hat F_n(y)=\frac{1}{n} \sum Z_i$ where $Z_i$ is defined similarly,
+interchanging $x$ with $y$ in the above piecewise definition.
+
+We have $\Cov(\hat F_n(x), \hat F_n(y))=\frac{1}{n^2} \sum_{i,j} \Cov(Y_i, Z_j)$.
+If $i\neq j$ then $Y_i$ and $Z_j$ are
+independent so $\Cov(Y_i,Z_j)=0$. Otherwise, note
+that $\Cov(Y_i,Z_i) = \E(Y_i Z_i) - \E(Y_i)\E(Z_i)$ and
+\[
+\E(Y_i) = \int I(z\leq x) dF(z) = \int_{-\infty}^x dF(z) = F(x)
+\text{ and similarly }
+\E(Z_i) = F(y).
+\]
+Without loss of generality, assume that $x<y$.
+For $\E(Y_iZ_i)$, note that if $X_i>x$ then $Y_iZ_i=0$ since $Y_i=0$.
+If $X_i\leq x$ then $Y_iZ_i=1$. So in fact $Y_iZ_i=Y_i$.
+Thus,
+\[
+\Cov(Y_i,Z_i) = \E(Y_i) - \E(Y_i)\E(Z_i) = F(x) - F(x)F(y).
+\]
+
+Plugging this into our formula yields
+\[
+\Cov(\hat F_n(x), \hat F_n(y)) =
+\begin{cases}
+\frac{F(x)}{n}(1- F(y)) & x < y \\
+\frac{F(y)}{n}(1-F(x)) & y > x.
+\end{cases}
+\]
+
+\item[(6)]
+By definition of the empirical distribution,
+\[
+\hat \theta = \frac{1}{n} (\#\{i : X_i \leq b\} - \#\{i : X_i \leq a\})
+=\frac{1}{n} \sum_{i=1}^n I_{(a,b]}(X_i)
+\]
+where $I_*$ denotes an indicator function. By independence,
+\[
+\V_\theta(\hat \theta) = \frac{1}{n^2} \sum_{i=1}^n \V(I_{(a,b]}(X_i)).
+\]
+So we want to find $\V(I_{(a,b]}(X_i))$. We have $I_{(a,b]}(X_i)^2=I_{(a,b]}(X_i)$
+so
+\[
+\V(I_{(a,b])}(X_i)) = \E(I_{(a,b]}(X_i)^2) - \E(I_{(a,b]}(X_i))^2
+= \E(I_{(a,b]}(X_i)) - \E(I_{(a,b]}(X_i))^2
+\]
+and $\E(I_{(a,b]}(X_i))=\int_a^b dF(x)=F(b)-F(a)$. Thus,
+$\V(I_{(a,b]}(X_i))=F(b)-F(a) - (F(b)-F(a))^2$ and
+\[
+\V(\hat \theta) = \frac{1}{n}\left(F(b)-F(a) - \left(F(b)-F(a)\right)^2\right).
+\]
+Our estimated standard error would be
+\[
+\widehat{\se}(\hat \theta) = \frac{1}{\sqrt{n}}\sqrt{\hat F_n(b) - \hat F_n(a) -
+(\hat F_n(b) - \hat F_n(a))^2}
+\]
+and our estimated $(1-\alpha)$-confidence interval would be the normal-based
+interval
+\[
+\hat F_n(b) - \hat F_n(a) \pm z_{\alpha/2}\widehat{\se}(\hat \theta).
+\]
+
+\item[(7)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_7/7.ipynb}{7.ipynb}.
+
+\item[(8)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_7/8.ipynb}{8.ipynb}.
+
+\item[(9)]
+The plug-in estimators are
+\[
+\hat p_1 = 0.9, \ \ \hat p_2 = 0.85,  \ \ \hat \theta = \hat p_1-\hat p_2 = 0.05.
+\]
+
+To estimate the standard error we first compute sample standard deviations.
+The sample standard deviation for $p_1$ is
+\[
+\hat \sigma_1 = \sqrt{\frac{1}{100} (90 * (1 - 0.9)^2 + 10 * (0 - 0.9)^2)} = 0.3
+\]
+and for $\hat p_2$
+\[
+\hat \sigma_2 = \sqrt{\frac{1}{100} (85 * (1 - 0.9)^2 + 15 * (0 - 0.9)^2)} \approx
+0.3606
+\]
+Then the estimated standard error for $\hat \theta$ is
+\[
+\widehat{\se} = \sqrt{\frac{1}{100}\left(\hat \sigma_1^2 + \hat \sigma_2^2\right)}
+\approx 0.0469.
+\]
+For $\alpha=0.2$, we have $z_{\alpha/2}=\Phi^{-1}(0.9) \approx 1.282$. An 80\%
+confidence interval is therefore
+\[
+0.05 \pm (0.0469)(1.282) = (-0.01, 0.11).
+\]
+For $\alpha=0.05$, we have $z_{\alpha/2}=\Phi^{-1}(0.975) \approx 1.96$. A 95\%
+confidence interval is therefore
+\[
+0.05 \pm (0.0469)(1.96) = (-0.042, 0.142).
+\]
+
+\item
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_7/10.ipynb}{10.ipynb}.
+
+\end{enumerate}
+\end{document}

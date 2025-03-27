@@ -1,0 +1,260 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 10 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(5)]
+\begin{enumerate}[(a)]
+\item
+Choose some $c \geq 0$. The rejection region is
+\[
+R = \left\{ (x_1,\ldots,x_n) : x_i > c \text{ for some } i\right\}.
+\]
+
+Hence the power function is $\beta(\theta)=\P_\theta((X_1,\ldots,X_n)\in R)$
+and this is
+\[
+\P_\theta(X_i>c \text{ for some } i) = 1 - \P_\theta(X_i<c \text{ for all } i)
+= 1 - \Pi_{i=1}^n \P_\theta(X_i < c).
+\]
+If $c\geq\theta$ then $\P_\theta(X_i < c) = 1$ for all $i$. If $c<\theta$ then
+$\P_\theta(X_i < c) = c/\theta$ for all $i$. Hence
+\[
+\beta(\theta) =
+\begin{cases}
+1-(c/\theta)^n & \theta > c \\
+0 & \theta \leq c\\
+\end{cases}
+\]
+
+\item
+The size is
+\[
+\alpha = \sup_{\theta=1/2} \beta(\theta) = \beta(1/2) = 1-(2c)^n.
+\]
+So we need to solve $1-(2c)^n=0.05$, i.e. $(2c)^n = 19/20$. The solution
+is
+\[
+c=\frac{1}{2}\left(\frac{19}{20}\right)^{1/n}.
+\]
+
+\item
+Choosing the parameter $c$, the size is $\alpha=1-(2c)^n$ with corresponding
+rejection region
+$R_\alpha = \left\{ (x_1,\ldots,x_n) : x_i > c \text{ for some } i\right\}$.
+The p-value is
+\[
+\inf \{\alpha \in (0,1) : Y \in R_\alpha\} = \inf\{\alpha \in (0,1) : Y > c\}
+\]
+Since $\alpha$ is strictly monotonically decreasing with $c$, the p-value
+is exactly the value of $\alpha$ when $Y=c$. In other words, the p-value is
+\[\alpha=1-(2Y)^n=1-(2 \cdot 0.48)^{20} \approx 0.558.\]
+We would not reject the null hypothesis $H_0$ in this case.
+
+\item
+Of course we can reject $H_0$ in this case: $\theta$ is definitely
+not equal to $1/2$. Let's confirm this using the p-value.
+The p-value in this case is
+\[
+\inf\{\alpha \in (0,1) : Y > c\} =
+\inf \{\alpha \in (0,1) : Y > 1/2(1-\alpha)^{1/20}\}.
+\]
+This is equal to 0 since $Y > 1/2$
+and we reject $H_0$ since our p-value $0$ is $<0.05$.
+\end{enumerate}
+
+\item[(6)]
+Set $n=1919$. Then we have Bernoulli random variables $X_1,\ldots,X_n$
+with $X_i=0$ if person $i$ died the week before Passover and $X_i=1$ otherwise.
+Let $\theta\in [0,1]$ be the parameter with $X_i\sim \Bern(\theta)$ for each $i$.
+So we want to test $H_0:\theta=\theta_0=1/2$ versus $H_1:\theta \neq 1/2$.
+We will test this using the Wald test.
+
+Our test statistic is
+\[
+w = \frac{\hat{\theta} - \theta_0}{\widehat{\se}}.
+\]
+Our estimate for $\hat{\theta}$ is the mean
+\[
+\hat{\theta}=\overline{X}=\frac{1}{n}\sum X_i = \frac{997}{1919}\approx 0.5195.
+\]
+The standard error of $\overline{X}$ is $\sigma/\sqrt{n}$ where $\sigma$
+is the standard deviation of the $X_i$. So we estimate $\se$ by
+$\widehat{\se}=\widehat{\sigma}/\sqrt{n}$ where $\widehat{\sigma}$ is the
+estimated standard deviation of the $X_i$:
+\[
+\widehat{\se}^2= \frac{1}{n} \hat\theta(1-\hat\theta)
+= \frac{1}{1919}\frac{997}{1919}\frac{922}{1919} \approx 0.00013,
+\ \ \ \widehat{\se} \approx 0.0114.
+\]
+Plugging in,
+\[
+w \approx \frac{0.5195 - 0.5}{0.0114} \approx 1.7105.
+\]
+By Theorem 10.13, our estimated p-value is
+\[
+2\Phi(-w)\approx 0.08717.
+\]
+We can view this as weak evidence against $H_0$ but we don't reject $H_0$
+at the size threshold of $0.05$.
+
+A 95\% confidence interval for $\theta$ is given by
+\[
+(\hat{\theta} - 2 \widehat{\se}, \hat{\theta} - 2\widehat{\se})
+= (0.4967, 0.5423).
+\]
+
+\item[(7)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_10/7.ipynb}{7.ipynb}.
+
+\item[(8)]
+\begin{enumerate}[(a)]
+\item
+We have
+\[
+\sum X_i \sim N(n\theta, n), \ \ \
+\overline{X_n} = \frac{1}{n} \sum X_i \sim N(\theta, n/n^2) = N(\theta, 1/n).
+\]
+So
+\[
+\beta(\theta)=\P_\theta((X_1,\ldots,X_n) \in R) = \P_\theta(\overline{X_n} > c)
+\]
+and this is equal to
+\[
+\P_\theta(\sqrt{n}(\overline{X_n} - \theta) > \sqrt{n}(c-\theta))
+= 1 - \Phi(\sqrt{n}(c-\theta)).
+\]
+The size is
+\[
+\alpha = \sup_{\theta \in \Theta_0} \beta(\theta) = \beta(0) =
+1- \Phi(c\sqrt{n}).
+\]
+I.e. $\Phi(c\sqrt{n})=1-\alpha$ and solving for $c$ yields
+$c=\frac{1}{\sqrt{n}}z_\alpha$.
+\item
+$\beta(1) = 1-\Phi(\sqrt{n}(c-1))$
+
+\item
+As $n\to \infty$, $c-1\to -1$ so $\sqrt{n}(c-1)\to -\infty$. Thus
+\\ $\Phi(\sqrt{n}(c-1))\to 0$ and $\beta(1)\to 1$.
+\end{enumerate}
+
+\item[(11)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_10/11.ipynb}{11.ipynb}.
+
+\item[(12)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_10/12.ipynb}{12.ipynb}.
+
+\item[(13)]
+We assume $\sigma$ to be known.
+The likelihood ratio test statistic is
+\[
+\lambda = 2 \log \left( \frac{\mathcal L(\hat\mu)}{\mathcal L(\mu_0)}\right)
+\]
+where $\hat \mu$ is the maximum likelihood estimator
+$\hat \mu = \overline X = \frac{1}{n}\sum X_i$.
+
+We have
+\[
+\mathcal L(\hat\mu) = \prod_i \frac{1}{\sqrt{2\pi}\sigma}e^{-(X_i-\hat\mu)^2/2\sigma^2}
+= \frac{1}{(\sqrt{2\pi}\sigma)^n}e^{-\sum(X_i-\hat\mu)^2/2\sigma^2}.
+\]
+Expanding $(X_i-\mu_0)^2$ as
+\[
+(X_i-\hat\mu)^2+2(\hat\mu-\mu_0)(X_i-\hat\mu) +(\hat\mu-\mu_0)^2
+\]
+yields
+\[
+\sum (X_i-\mu_0)^2 = \sum (X_i-\hat \mu)^2 + n(\hat\mu -\mu_0)^2.
+\]
+So we have
+\[
+\mathcal L(\mu_0) =
+\frac{1}{(\sqrt{2\pi}\sigma)^n} e^{-\left(\sum (X_i-\hat\mu)^2/2\sigma^2 +
+n(\hat\mu-\mu_0)^2/2\sigma^2\right)}.
+\]
+Thus
+\[
+\frac{\mathcal L(\hat\mu)}{\mathcal L(\mu_0)}=e^{n(\hat\mu-\mu_0)^2/2\sigma^2}
+\]
+and our statistic is
+\[
+\lambda = 2 \log \left( \frac{\mathcal L(\hat\mu)}{\mathcal L(\mu_0)}\right)=
+n(\hat\mu-\mu_0)^2/\sigma^2.
+\]
+
+Say that we reject $H_0$ if $\lambda > c$ for some fixed $c$. This is equivalent
+to
+\[
+\frac{|\hat\mu-\mu_0|}{\sigma/\sqrt{n}} > \sqrt{c}.
+\]
+Let's compute the size of this test.
+Assuming $\mu=\mu_0$, we have that
+$\frac{\hat\mu-\mu_0}{\sigma/\sqrt{n}} \sim N(0,1)$.
+In this case, the probability of the inequality above is
+\[
+\Phi(-\sqrt{c}) + (1-\Phi(\sqrt{c})) = 2-2\Phi(\sqrt{c})
+\]
+and this is the size of our test.
+Setting the size to be $\alpha$ yields $c = z_{\alpha/2}^2$. So the size
+$\alpha$ likelihood ratio test is
+\[
+\frac{|\hat\mu-\mu_0|}{\sigma/\sqrt{n}} > z_{\alpha/2}.
+\]
+The size $\alpha$ Wald test for rejecting $H_0$ is
+\[
+\frac{|\hat\mu-\mu_0|}{\widehat{\se}} > z_{\alpha/2}.
+\]
+So we see that the two tests are the same up to replacing $\widehat\se$ (an
+estimate of the standard error of $\hat\mu$) by
+$\sigma/\sqrt{n}$ (the actual standard error of $\hat\mu$).
+
+
+\end{enumerate}
+\end{document}

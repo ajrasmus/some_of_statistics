@@ -1,0 +1,125 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\MSE}{\textsc{mse}}
+\newcommand{\bias}{\mathsf{bias}}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 6 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(1)]
+The bias is
+\[
+\E_\lambda(\hat\lambda)-\lambda = n^{-1}\sum \E(X_i) -\lambda=
+\lambda - \lambda=0.
+\]
+Since $X_1,\ldots,X_n$ are assumed independent,
+\[
+\V_\lambda(\hat\lambda)=n^{-2} \sum \V_\lambda(X_i) = n^{-2}(n\lambda)=
+n^{-1}\lambda
+\]
+and $\se(\hat\lambda)=\sqrt{\lambda}/\sqrt{n}$.
+Since $\MSE$ is the sum of $\se^2$ and $\bias^2$, we have
+\[
+\MSE(\hat\lambda)=\lambda/n + 0 = \lambda/n.
+\]
+
+\item[(2)]
+We have
+\[
+\E_\theta(\hat\theta) = \frac{1}{\theta^n}\int_0^\theta \cdots \int_0^\theta
+\max(x_1,\ldots,x_n)dx_1\cdots dx_n.
+\]
+The region $[0,\theta]^n$ in $\R^n$ breaks up into $n$ regions (with measure 0
+overlap) defined by $\max\{x_1,\ldots,x_n\}=x_i$. The integral of
+$\max(x_1,\ldots,x_n)$ over each region will be the same. So we can integrate
+over one such region (for instance where $x_n$ is the max) and multiply by $n$:
+\[
+\E_\theta(\hat\theta) =
+\frac{n}{\theta^n} \int_0^\theta \int_0^{x_n} \cdots \int_0^{x_n} x_n dx_1\cdots dx_n
+= \frac{n}{\theta^n} \int_0^\theta x_n^n dx_n = \frac{n}{n+1}\theta.
+\]
+Thus
+\[
+\bias^2(\hat\theta)=\E_\theta(\hat\theta)-\theta=-\frac{1}{n+1}\theta.
+\]
+To compute standard error we find $\E_\theta(\hat\theta^2)$. This integral is
+handled in essentially the same way as the last one:
+\[
+\E_\theta(\hat\theta^2)=
+\frac{n}{\theta^n} \int_0^\theta\int_0^{x_n}\cdots\int_0^{x_n}x_n^2dx_1\cdots dx_n
+= \frac{n}{\theta^n} \int_0^\theta x_n^{n+1}dx_n =\frac{n}{n+2}\theta^2.
+\]
+Thus,
+\[
+\V_\theta(\hat\theta) = \frac{n}{n+2} \theta^2 - \left(\frac{n}{n+1}\theta\right)^2
+= \frac{n}{(n+2)(n+1)^2}\theta^2 \text{ and }
+\se(\hat\theta) = \sqrt{\frac{n}{n+2}} \frac{\theta}{n+1}.
+\]
+Finally,
+\[
+\MSE(\hat\theta) = \frac{1}{(n+1)^2}\theta^2 +\frac{n}{(n+2)(n+1)^2}\theta^2
+=\frac{2n+2}{(n+2)(n+1)^2}\theta^2.
+\]
+
+\item[(3)]
+\[
+\E_\theta(\hat\theta)=2\E_\theta(\overline{X_n})=\theta
+\text{ so } \bias(\hat\theta) = 0
+\]
+and
+\[
+\V_\theta(\hat\theta) =
+4\V(\overline{X_n})= \frac{4}{n^2} \cdot n\frac{\theta^2}{12} =
+\frac{\theta^2}{3n} \text{ so } \se(\hat\theta) = \frac{\theta}{\sqrt{3n}}
+\text{ and }
+\MSE(\theta) = \V(\hat\theta)=\frac{\theta^2}{3n}.
+\]
+\end{enumerate}
+\end{document}

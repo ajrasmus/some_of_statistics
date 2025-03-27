@@ -1,0 +1,210 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\Gam}{\operatorname{Gamma}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\MSE}{\textsc{mse}}
+\newcommand{\bias}{\mathsf{bias}}
+\newcommand{\CDF}{\textsc{cdf}}
+\newcommand{\MLE}{\textsc{mle}}
+\newcommand{\toP}{\xrightarrow{P}}
+\newcommand{\toqm}{\xrightarrow{\text{qm}}}
+
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 5 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+\item[(1)]
+\begin{enumerate}[(a)]
+\item We have
+\[
+\E(S_n^2) = \frac{1}{n-1} \sum \E[(X_i - \overline X_n)^2] \text{ and }
+\E(X_i-\overline X_n) = 0.
+\]
+So $\E(S_n^2)=\frac{1}{n-1} \sum \V(X_i - \overline X_n)$. We have
+\[
+\V(X_i-\overline X_n)=\V(X_i) + \V(\overline X_n) - 2\Cov(X_i,\overline X_n).
+\]
+By independence of the $X_i$, $\V(\overline X_n)=\sigma^2/n$. On the other hand,
+$\Cov(X_i, \overline X_n)$ is equal to
+\[
+\E((X_i-\mu)(\overline X_n-\mu)) =
+\E\left(\frac{1}{n}\sum (X_i-\mu) (X_j-\mu)\right) = \frac{1}{n}\sum \Cov(X_i,X_j).
+\]
+Every term in this sum is zero except for $\Cov(X_i,X_i)=\V(X_i)$. So
+$\Cov(X_i,\overline X_n)=\sigma^2/n$. Thus,
+\[
+\V(X_i-\overline X_n)=\sigma^2 + \sigma^2/n-2\sigma^2/n = \frac{(n-1)\sigma^2}{n}
+\]
+for each $i$ and
+\[
+\E(S_n^2)=\frac{1}{n-1} \sum \V(X_i - \overline X_n) =
+\frac{n}{n-1}\cdot \frac{(n-1)\sigma^2}{n} = \sigma^2.
+\]
+
+\item Following the hint,
+\[
+S_n^2 = \frac{1}{n-1} \sum (X_i^2 - 2X_i \overline X_n + \overline X_n^2) =
+\frac{1}{n-1} \sum X_i^2 - \frac{2n}{n-1} \overline X_n^2 + \frac{n}{n-1}\overline X_n^2
+\]
+which is equal to
+\[
+\frac{n}{n-1} \frac{1}{n} \sum X_i^2 - \frac{n}{n-1} \overline X_n^2
+= \frac{c_n}{n} \sum X_i^2 - d_n \overline X_n^2
+\]
+where of course $c_n=d_n\to 1$. By the law of large numbers $\overline X_n\toP\mu$
+as $n\to\infty$. Using the LLN plus independence of the $X_i^2$ we also get
+$\frac{1}{n}\sum X_i^2 \toP \E(X_1^2)=\sigma^2+\mu^2$. Thus by parts (a) and (d)
+of Theorem 5.5,
+\[
+S_n^2 \toP \sigma^2+\mu^2 - \mu^2 = \sigma^2.
+\]
+\end{enumerate}
+
+\item[(2)]
+The expected value $\E[(X_n-b)^2]$ is equal to
+\[
+\E(X_n^2) - 2b\E(X_n) + b^2 =
+\V(X_n) + \E(X_n)^2 - 2b\E(X_n) + b^2 = \V(X_n) + (\E(X_n) - b)^2.
+\]
+Since both terms are non-negative, $\E[(X_n-b)^2]\to 0$ if and only if
+$\E(X_n)\to b$ and $\V(X_n)\to 0$, as claimed.
+
+\item[(3)]
+\[
+\E(\overline X_n) = \mu \text{ and } \V(\overline X_n) = \frac{1}{n} \V(X_1) \to 0
+\text{ as } n\to\infty.
+\]
+Hence by Exercise (2), $\overline X_n \toqm \mu$.
+
+\item[(5)]
+\[
+\E\left(\frac{1}{n}\sum X_i\right) = \frac{1}{n}np = p \text{ and }
+\V\left(\frac{1}{n}\sum X_i\right) = \frac{1}{n^2}np(1-p)\to 0
+\text{ as } n\to \infty.
+\]
+Thus by Exercise (2), $\frac{1}{n}\sum X_i\toqm p$. Since convergence in quadratic
+mean implies convergence in probability, the sequence also converges to $p$
+in probability.
+
+\item[(6)]
+Let $X_1,\ldots,X_{100}$ be the heights and $\overline X$ be the average.
+Set $\mu=68$ and $\sigma=2.6$.
+By the Central Limit Theorem we may approximate
+\[
+\P(\overline X \geq 68) =
+\P\left(\frac{\sqrt{100}(\overline X - 68)}{2.6} \geq 0\right) \approx
+\P(Z\geq 0) = \frac{1}{2}
+\]
+where $Z$ is a standard normal.
+
+\item[(8)]
+We have $\V(Y)=\sum \V(X_i)=n$ and similarly $\E(Y)=n$.
+Consider $\overline X_n=\frac{1}{n}Y$. We have $\E(\overline X_n)=1$
+and $\V(\overline X_n)=1/n$. Consider
+\[
+Z = \frac{\overline X_n - \E \overline X_n}{\sqrt{\V \overline X_n}}
+= \sqrt{n}(\overline X_n -1).
+\]
+By the central limit theorem we can approximate $Z$ by a standard normal and
+\[
+\Phi(z) \approx \P(Z\leq z) = \P(\overline X_n \leq 1 + z/\sqrt{n})
+= \P(Y \leq n + \sqrt{n}z).
+\]
+Solving for $n+\sqrt{n}z=90$ we find $z=(90-n)/\sqrt{n}=-1$. Thus,
+\[
+\P(Y\leq 90) = \P(Z\leq -1) \approx \Phi(-1) = 0.15865\ldots.
+\]
+
+\item[(11)]
+It suffices to show that $X_n\toP X$. We have $\P(X=0)=1$.
+Thus, it suffices to show that $\P(|X_n|>\epsilon)\to 0$. This is clear.
+
+\item[(14)]
+We'll apply the delta method. We have $\mu=\E(X_i)=1/2$ and
+$\sigma=\sqrt{\V(X_i)}=\sqrt{1/12}$. By the Central Limit Theorem,
+$\sqrt{n}(\overline X_n - \mu)/\sigma\rightsquigarrow Z$ where $Z$ is a
+standard normal random variable. Set $g(x)=x^2$ so that $g'(x)=2x$.
+By the delta method, we have
+\[
+Y_n \approx N\left(g(\mu), g'(\mu)^2 \frac{\sigma^2}{n}\right) =
+N\left(\frac{1}{4}, \frac{1}{12n}\right)
+\]
+for large $n$. In particular, $Y_n \rightsquigarrow \frac{1}{4}$.
+
+\item[(15)]
+We will again apply the delta method. By the Central Limit Theorem,
+\[
+\sqrt{n}\left(\begin{pmatrix} \overline X_1 \\ \overline X_2 \end{pmatrix} - \mu \right)
+\rightsquigarrow N(0,\Sigma)
+\]
+where $\Sigma$ is the variance matrix for the random vectors.
+Set $g(x,y)=x/y$. We have
+\[
+\nabla g = \frac{1}{y} \begin{pmatrix} 1 \\ -\frac{x}{y} \end{pmatrix} \text{ so }
+\nabla \mu = \frac{1}{\mu_2} \begin{pmatrix} 1 \\ -\frac{\mu_1}{\mu_2}\end{pmatrix}.
+\]
+We may write
+$\Sigma = \begin{pmatrix} v_{11} & v_{12} \\ v_{12} & v_{22} \end{pmatrix}$.
+Hence
+\[
+\nabla_\mu^T \Sigma \nabla_\mu =
+\frac{1}{\mu_2^4} \begin{pmatrix} \mu_2 & -\mu_1\end{pmatrix}
+\begin{pmatrix} v_{11} & v_{12} \\ v_{12} & v_{22} \end{pmatrix}
+\begin{pmatrix} \mu_2 \\ -\mu_1 \end{pmatrix} =
+\frac{1}{\mu_2^4}(v_{11}\mu_2^2 - 2v_{12}\mu_1\mu_2 + v_{22}\mu_1^2).
+\]
+By the delta method,
+\[
+\sqrt{n}(\overline X_1/\overline X_2 - \mu_1/\mu_2) \rightsquigarrow
+N\left(0,\frac{1}{\mu_2^4}(v_{11}\mu_2^2 - 2v_{12}\mu_1\mu_2 + v_{22}\mu_1^2)\right).
+\]
+In particular $\overline X_1/\overline X_2 \rightsquigarrow \mu_1/\mu_2$.
+
+\end{enumerate}
+\end{document}

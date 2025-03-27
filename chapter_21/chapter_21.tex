@@ -1,0 +1,113 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ol}{\overline}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 21 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+
+\item[(1)]
+We have $R(J) = \int b(x)^2dx + \int v(x)dx$. Furthermore,
+\[
+b(x) = \E(\hat f(x)) - f(x) = \sum_{j=1}^J \E(\hat \beta_j) \phi_j(x) - f(x)
+= \sum_{j=1}^J \beta_j \phi_j(x) - f(x) = \sum_{j=J+1}^\infty \beta_j \phi_j(x).
+\]
+By orthogonality of the $\phi_j$,
+\[
+\int b^2 = \sum_{j=J+1}^\infty \beta_j^2
+\]
+For the other term,
+\[
+v(x) = \E\left(\hat f(x) - \E \hat f(x)\right)^2 =
+\E \left( \sum_{j=1}^J (\hat \beta_j - \beta_j)\phi_j(x)\right)^2
+= \sum_{j=1}^J \sum_{k=1}^J \Cov(\hat \beta_j, \hat \beta_k) \phi_j(x) \phi_k(x).
+\]
+Again using orthogonality of the $\phi_j$ yields,
+\[
+\int v(x) dx = \sum_{j=1}^J \V(\hat \beta_j) = \sum_{j=1}^J \frac{\sigma_j^2}{n}.
+\]
+Adding $\int b^2$ to $\int v$ proves the theorem.
+
+\item[(4)]
+Set $f_n = \sum_{j=1}^n \beta_j \phi_j$. By hypothesis,
+$\int (f-f_n)^2\to 0$ as $n\to \infty$. We have
+\[
+    \int(f - f_n)^2 = \int f^2 - 2\int f f_n + \int f_n^2.
+\]
+By the Cauchy-Schwarz inequality (equivalently H\"{o}lder's inequality),
+\[
+\left|\int f f_n\right| \leq \sqrt{\int f^2} \sqrt{\int f_n^2}.
+\]
+Hence,
+\[
+    \int (f - f_n)^2 \geq \int f^2 - 2 \sqrt{\int f^2} \sqrt{\int f_n^2} +
+    \int f_n^2 = \left(\sqrt{\int f^2} - \sqrt{\int f_n^2}\right)^2.
+\]
+Thus $\int f_n^2 \to \int f^2$. On the other hand,
+\[
+    \int f_n^2 = \sum_{j=1}^n \beta_j^2
+\]
+by the orthogonality of the $\phi_j$. The proof of H\"{o}lder's inequality
+follows from Young's inequality for products. See Wikipedia.
+
+\item[(5)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_21/5.ipynb}{5.ipynb}.
+
+\item[(6)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_21/6.ipynb}{6.ipynb}.
+
+\item[(7)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_21/9.ipynb}{9.ipynb}.
+
+\item[(11)]
+
+\end{enumerate}
+\end{document}
