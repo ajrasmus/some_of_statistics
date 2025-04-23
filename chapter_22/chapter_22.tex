@@ -1,0 +1,133 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ol}{\overline}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 22 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}
+
+\item[(3)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_22/3.ipynb}{3.ipynb}.
+
+
+\item[(4)]
+The VC-dimension of $\mathcal A$ is 3. One may check that any set of
+three non-collinear points is shattered by $\mathcal A$.
+
+So we consider
+four points in $\R^2$ and we claim they cannot be shattered. If three
+of the points, say $x,y,z$ are collinear, then one of them, say $y$,
+lies on the line segment $[x,z]$. On the other hand, if $A\in \mathcal A$
+is a disk containing $x,z$ then it also contains $[x,z]$ by convexity
+and hence it contains $y$. Otherwise we have four points $x,y,z,w$ in
+general position. The set of line segments between points in $\{x,y,z,w\}$
+is a quadrilateral with line segments joining its two pairs of opposite
+vertices. Thus two such line segments cross. Say $[x,y]$ and $[z,w]$
+cross. Suppose there is a disk $A$ containing $\{x,y\}$ but not $\{z,w\}$
+and a disk $B$ containing $\{z,w\}$ but not $\{x,y\}$. The intersection of
+$A$ and $B$ is a lens $L$ bounded by an arc of the boundary $\partial A$
+and an arc of the boundary $\partial B$. Denote the two points of intersection
+of these arcs by $p$ and $q$. Denote the bi-infinite line through $p$ and $q$
+by $\mathcal L$. Then one side of $\mathcal L$ contains no point of
+$A\setminus B$ and the other side contains no point of $B\setminus A$.
+Hence $[x,y]$ lies on one side of $\mathcal L$ and $[z,w]$ lies on the other
+side so that $[x,y]$ and $[z,w]$ cannot cross. This is a contradiction.
+
+\item[(5)] See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_22/5.ipynb}{5.ipynb}.
+
+\item[(6)] See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_22/6.ipynb}{6.ipynb}.
+
+\item[(7)]
+It is clear that no linear classifier can perfectly classify the data assuming
+there are some $i$ falling into the three different cases
+$X_i<-1$, $-1\leq X_i\leq 1$, and $X_i>1$. On the other hand,
+the data $Z_i$ can be separated by the plane $y=1$ in $\R^2$.
+
+\item[(8)] See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_22/8.ipynb}{8.ipynb}.
+
+\item[(9)] Apply the $k$ nearest neighbors classifier to the ``iris data.''
+Choose $k$ by cross-validation.
+
+\item[(10)]
+This is actually the formula for the median distance for $n$ points in the
+\emph{unit ball}. See e.g. Hastie-Tibshirani-Friedman equation (2.24). Moreover,
+the correct expression for the median is actually $(1 - (1/2)^{1/n})^{1/d}$ (i.e.
+there is no need for the factor $v_d(1)^{-1/d}$).
+
+To prove this equation for the unit ball, note that if $X_1,\ldots,X_n$
+are uniformly distributed, then for any $r \in [0,1]$
+\[
+    \P(R>r) = \P(|X_i| > r \text{ for all } i).
+\]
+The volume of the $r$-ball is $v_d(r)=r^d v_d(1)$, and renormalizing to give
+the unit ball volume 1 by dividing by $v_d(1)$, the volume is just $r^d$.
+Therefore
+\[
+    \P(R>r) = 1 - (1-r^d)^n \text{ and } \P(R \leq r) = (1-r^d)^n.
+\]
+The median is given by solving
+\[
+    (1-r^d)^n = \frac{1}{2}
+\]
+which yields $r=\left(1-\frac{1}{2^{1/n}}\right)^{1/d}$ as claimed.
+
+I'm not sure what the correct expression is for the median closest distance
+for the cube $[-1/2,1/2]^d$, but it seems pretty tedious to calculate.
+
+\item[(11)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_22/11.ipynb}{11.ipynb}.
+
+\item[(12)] Fit a tree that uses only one split on one variable to the data in question
+3. Now apply boosting.
+\end{enumerate}
+\end{document}
