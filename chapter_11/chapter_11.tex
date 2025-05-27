@@ -1,0 +1,89 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage{systeme}
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ol}{\overline}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 11 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}[(1)]
+\item[(1)]
+
+\item[(2)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_11/2.ipynb}{2.ipynb}.
+
+
+\item[(3)] Set $M=\max\{x_1,\ldots,x_n\}$. Then
+\[
+    \mathcal L(\theta) = \begin{cases}
+        0 & \text{if } \theta < M \\
+        \theta^{-n} & \text{if } \theta \geq M \\
+    \end{cases}.
+\]
+Thus,
+\[
+    f(\theta | x^n) \propto f(\theta)\mathcal L(\theta) =
+    \begin{cases}
+        0 & \text{if } \theta < M \\
+        \theta^{-n-1} & \text{if } \theta \geq M
+    \end{cases}.
+\]
+The integral is $\int_M^\infty \theta^{-n-1} = \frac{1}{n}M^{-n}$.
+Hence
+\[
+    f(\theta|x^n) = \begin{cases}
+        \frac{n\max\{x_1,\ldots,x_n\}^n}{\theta^{n+1}} &
+        \text{if } \theta \geq \max\{x_1,\ldots,x_n\} \\
+        0 & \text{else }
+    \end{cases}
+\]
+
+\item[(4)]
+\end{enumerate}
+\end{document}
