@@ -53,6 +53,44 @@
 
 \begin{enumerate}[(1)]
 \item[(1)]
+We have $f(\theta|X^n)\propto f(\theta)\mathcal L(\theta)$. Thus,
+\[
+    f(\theta|X^n)\propto
+    e^{-(\theta-a)^2/2b^2} \prod_i e^{-(X_i-\theta)^2/2\sigma^2} =
+    \exp\left(-(\theta-a)^2/2b^2 - \sum (\theta - X_i)^2/2\sigma^2\right).
+\]
+Consider $\frac{(\theta-a)^2}{2b^2} + \sum \frac{(\theta - X_i)^2}{2\sigma^2}$.
+Up to adding a constant independent of $\theta$, this is equal to
+\[
+    \frac{(\theta-a)^2}{2b^2} + \frac{n(\theta - \bar X)^2}{2\sigma^2},
+\]
+since $\sum (\theta - X_i)^2=\theta^2 - 2n\bar X \theta + \sum X_i^2$.
+This is in turn equal to
+\[
+    \frac{\sigma^2(\theta - a)^2 + nb^2(\theta - \bar X)^2}{2b^2\sigma^2}.
+\]
+Expanding this out yields
+\[
+    \frac{(\sigma^2 + nb^2)\theta^2 - 2(\sigma^2a + b^2 n\bar X)\theta + C}
+    {2b^2\sigma^2}
+\]
+where $C$ is some constant independent of $\theta$. Up to adding another constant
+not depending on $\theta$ (by completing the square), this is equal to
+\[
+    \frac{(\sigma^2 + nb^2)\left(\theta - \frac{\sigma^2a + b^2 n\bar X}
+    {\sigma^2+nb^2}\right)^2}
+    {2b^2\sigma^2}.
+\]
+Thus, up to multiplying by a constant not depending on $\theta$, $f(\theta|X^n)$
+is equal to
+\[
+    \exp\left(-\frac{\sigma^2+nb^2}{2b^2\sigma^2}
+    \left(\theta-\frac{\sigma^2a+b^2n\bar X}{\sigma^2+nb^2}\right)^2\right).
+\]
+Finally, compute that $\frac{1}{\tau^2}=\frac{\sigma^2+nb^2}{b^2\sigma^2}$
+and $\bar \theta = w\bar X + (1-w)a=\frac{\sigma^2a+b^2n\bar X}{\sigma^2 + nb^2}$
+to conclude that $\theta|X^n \sim N(\bar \theta, \tau^2)$, as claimed.
+
 
 \item[(2)]
 See the Jupyter Notebook
@@ -81,9 +119,20 @@ Hence
         \frac{n\max\{x_1,\ldots,x_n\}^n}{\theta^{n+1}} &
         \text{if } \theta \geq \max\{x_1,\ldots,x_n\} \\
         0 & \text{else }
-    \end{cases}
+    \end{cases}.
 \]
 
 \item[(4)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_11/4.ipynb}{4.ipynb}.
+
+\item[(5)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_11/5.ipynb}{5.ipynb}.
+
+\item[(8)]
+See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_11/8.ipynb}{8.ipynb}.
+
 \end{enumerate}
 \end{document}
