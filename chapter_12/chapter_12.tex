@@ -1,0 +1,103 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage{systeme}
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Beta}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\Gamm}{\operatorname{Gamma}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ol}{\overline}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 12 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}[(1)]
+\item[(1)]
+
+\begin{enumerate}
+\item Let's calculate the posterior distribution $p|x$. We have
+\[
+    f(p|x)\propto f(p)\mathcal L(p) \propto p^{\alpha-1}(1-p)^{\beta-1}p^x(1-p)^{n-x}.
+\]
+Thus we recognize $p|x$ as a $\Beta(\alpha+x,\beta+n-x)$ random variable. By Theorem
+12.8, the Bayes estimator for $p$ is the posterior mean:
+\[
+    \hat p(x) = \frac{\alpha+x}{\alpha+\beta+n}.
+\]
+
+\item Here we have
+\[
+    f(\lambda|x)\propto f(\lambda) \mathcal L(\lambda) \propto
+    \lambda^{\alpha-1}e^{-x/\beta}\lambda^x.
+\]
+Thus we recognize $\lambda|x$ as a $\Gamm(\alpha+x,\beta)$ random variable. Again,
+the Bayes estimator for $\lambda$ is the posterior mean:
+\[
+    \hat \lambda(x)=(\alpha+x)\beta.
+\]
+
+\item Here
+\[
+    f(\theta | x)\propto \exp\left(\frac{-(\theta-a)^2}{2b^2}\right)
+    \exp\left(\frac{-(x-\theta)^2}{2\sigma^2}\right)
+    = \exp\left(-\frac{\sigma^2(\theta-a)^2+b^2(\theta-x)^2}{2b^2\sigma^2}\right).
+\]
+Completing the square yields that $f(\theta|x)$ is proportional to
+\[
+    \exp\left(-\frac{(\sigma^2+b^2)\theta^2-2(a\sigma^2+xb^2)\theta}{2b^2\sigma^2}\right)
+    \propto
+    \exp\left(-\frac{\sigma^2+b^2}{2b^2\sigma^2}
+    \left(\theta - \frac{a\sigma^2+xb^2}{\sigma^2+b^2}\right)^2\right).
+\]
+Thus we recognize $\theta|x$ as a $N\left(\frac{a\sigma^2+xb^2}{\sigma^2+b^2},
+\frac{b^2\sigma^2}{\sigma^2+b^2}\right)$ random variable. The Bayes estimator
+is the posterior mean:
+\[
+    \hat \theta(x) = \frac{a\sigma^2+xb^2}{\sigma^2+b^2}.
+\]
+\end{enumerate}
+
+\end{enumerate}
+\end{document}
