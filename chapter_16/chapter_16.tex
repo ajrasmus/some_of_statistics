@@ -1,0 +1,114 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage{systeme}
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Beta}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\Gamm}{\operatorname{Gamma}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ol}{\overline}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 16 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}[(1)]
+\item[(1)] Suppose the data are given by the following table
+
+\begin{center}
+\begin{tabular}{l l l l}
+$X$ & $Y$ & $C_0$ & $C_1$ \\
+\hline
+\hline
+0 & 0 & 0 & $0^*$ \\
+0 & 0 & 0 & $0^*$ \\
+\hline
+1 & 0 & $1^*$ & 0 \\
+1 & 1 & $1^*$ & 1 \\
+\end{tabular}
+\end{center}
+Then $\theta = \E(C_1) - \E(C_0)=1/4-1/2=-1/4$. On the other hand
+$\alpha = \E(Y|X=1)-\E(Y|X=0)=1/2 - 0 = 1/2$.
+
+\item[(2)] Saying that $X$ is randomly assigned means that $X$ is
+independent of the collection $\{C(x):x\in \R\}$. Thus in this case
+\[
+    \theta(x)=\E(C(x)) = \E(C(x)|X=x)=\E(Y|X=x)=r(x).
+\]
+To see that $\theta \neq r$ in general, suppose that $X\sim N(0,1)$ and that
+for each $x\in \R$, $C(x)$ is the random variable $X$. Then $\theta(x)=\E(X)=0$.
+However, $r(x)=\E(Y|X=x)=\E(X|X=x)=x$.
+
+\item[(3)] We have
+\[
+    \E(C_1)=\E(C_1|X=1)\P(X=1) + \E(C_1|X=0)\P(X=0).
+\]
+Since $\E(C_1|X=1)=\E(Y|X=1)$, we have
+\[
+    \E(Y|X=1)\P(X=1) \leq \E(C_1)\leq \E(Y|X=1)\P(X=1) + \P(X=0).
+\]
+Similarly,
+\[
+    \E(Y|X=0)\P(X=0) \leq \E(C_0) \leq \E(Y|X=0)\P(X=0)+\P(X=1).
+\]
+Thus,
+\[
+    \E(C_0)\geq \E(Y|X=1)\P(X=1) - \E(Y|X=0)\P(X=0) - \P(X=1)
+\]
+and
+\[
+    \E(C_0)\leq \E(Y|X=1)\P(X=1) + \P(X=0) - \E(Y|X=0)\P(X=0).
+\]
+The conclusion is that $\E(C_1)-\E(C_0)$ lies between
+\[
+    \E(Y|X=1)\P(X=1)-\E(Y|X=0)\P(X=0) - \P(X=1)
+\]
+and
+\[
+    \E(Y|X=1)\P(X=1)-\E(Y|X=0)\P(X=0) +\P(X=0)
+\]
+and this interval has diameter $1$.
+
+\end{enumerate}
+\end{document}
