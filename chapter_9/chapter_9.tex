@@ -63,11 +63,11 @@ The first moment is $\epsilon_1=\alpha\beta$, as calculated in the text.
 The second moment is
 \[
 \epsilon_2 = \frac{1}{\beta^\alpha \Gamma(\alpha)}
-\int_0^\infty x^{\alpha+1e^{-x/\beta}}dx.
+\int_0^\infty x^{\alpha+1}e^{-x/\beta}dx.
 \]
 Integration by parts yields
 \[
-\int x^{\alpha+1e^{-x/\beta}}dx = -\beta x^{\alpha+1}e^{-x/\beta} +
+\int x^{\alpha+1}e^{-x/\beta}dx = -\beta x^{\alpha+1}e^{-x/\beta} +
 \beta(\alpha+1)\int x^{\alpha}e^{-x/\beta}dx
 \]
 where we note that the first term is zero at $x=0$ and approaches 0 as
@@ -135,7 +135,7 @@ the smaller. I.e.
 \hat b = \hat \mu + \sqrt{3}\hat \sigma
 \]
 where $\hat \mu=\hat \alpha_1$ and $\hat \sigma^2 = \hat \alpha_2 - \hat \alpha_1^2$
-are the sample mean and standard deviation, respectively.
+are the sample mean and variance, respectively.
 
 \item Set $\theta=(a,b)$ and let $\hat \theta=(\hat a,\hat b)$ be the $\MLE$.
 The likelihood of $\theta$ is
@@ -164,6 +164,15 @@ See the Jupyter Notebook
 \item[(3)]
 See the Jupyter Notebook
 \href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_9/3.ipynb}{3.ipynb}.
+
+\item[(4)]
+The MLE for $\theta$ is $Y_n=\max\{X_1,\ldots,X_n\}$. For any $\epsilon>0$,
+\[
+    \P(|\theta-Y_n|>\epsilon)<\P(Y_n < \theta-\epsilon)=\P(X_1<\theta-\epsilon)
+    \cdots \P(X_n<\theta-\epsilon)=\frac{(\theta-\epsilon)^n}{\theta^n}.
+\]
+This converges to 0 as $n\to \infty$. So $Y_n$ is a consistent estimator of
+$\theta$.
 
 \item[(5)]
 For the method of moments, there is only one moment to compute: the first moment.
@@ -194,6 +203,41 @@ The Fisher information is
 \[
 I(\lambda) = -\E\left(-\frac{X}{\lambda^2}\right) = \lambda / \lambda^2 = 1/\lambda.
 \]
+
+\item[(6)]
+\begin{enumerate}[(a)]
+\item The test statistics is $\psi=\P(Y_1=1)=\P(X_1>0)=1-\Phi(-\theta)$.
+The MLE for $\theta$ is $\overline{X_n}$. Hence the MLE for $\psi$ is
+$\hat \psi = 1 - \Phi(-\overline{X_n})$.
+\item The standard error for $\overline{X_n}$ is $1/\sqrt{n}$. By the delta
+method, the standard error for $\hat \psi$ is approximately
+$\phi(-\overline X_n)\hat \se (\overline X_n)=\phi(-\overline X_n)/\sqrt{n}$
+where $\phi$ is the PDF for the standard normal.
+An approximate 95\% confidence interval is
+\[
+    1 - \Phi(-\overline{X_n}) \pm 2 \frac{\phi(\overline X_n)}{\sqrt{n}}.
+\]
+\item By the Law of Large Numbers, $\tilde \psi_n = \frac{1}{n}\sum Y_i$ converges
+in probability to the mean of any $Y_i$, which is the probability that $Y_1=1$.
+
+\item The standard error of $\hat \psi$ is $\phi(-\overline X_n)/\sqrt{n}$.
+The standard error of $\tilde \psi$ is the square root of
+$\frac{1}{n^2}\sum \V(Y_i)$.
+Note $Y_i$ is a $\Bern(p)$ random variable with $p=1-\Phi(-\theta)$. Therefore
+\[
+    \se(\tilde \psi) =
+    \frac{1}{\sqrt{n}}\Phi(-\theta)^{1/2}(1-\Phi(-\theta))^{1/2}.
+\]
+By asymptotic normality of the MLE, $\sqrt{n}(\hat \psi - \psi)$ converges in
+probability to $N(0,\phi(-\theta))$. By the Central Limit Theorem,
+$\sqrt{n}(\tilde \psi - \psi)$ converges in probability to
+$N(0,\Phi(-\theta)^{1/2}(1-\Phi(-\theta))^{1/2})$. The asymptotic relative
+efficiency is
+\[
+    \textsc{are}(\tilde \psi, \hat \psi) = \frac{\phi(-\theta)}
+    {\Phi(-\theta)^{1/2}(1-\Phi(-\theta))^{1/2}}.
+\]
+\end{enumerate}
 
 \item[(7)]
 \begin{enumerate}[(a)]

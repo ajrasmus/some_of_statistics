@@ -46,6 +46,32 @@
 \emph{Wasserman --- All of Statistics}}
 
 \begin{enumerate}
+
+\item[(1)]
+If in reality $\theta=\theta_*$, then we have
+\[
+    W = \frac{\hat \theta - \theta_0}{\hat \se} =
+    \frac{\hat \theta - \theta_*}{\hat \se} + \frac{\theta_*-\theta_0}{\hat \se}.
+\]
+Asymptotically, this is a $N\left(\frac{\theta_*-\theta_0}{\hat \se},1\right)$
+random variable. We reject the null hypothesis if $|W|>z_{\alpha/2}$. There are
+two cases. The probability that $W>z_{\alpha/2}$ is
+\[
+    \P(W>z_{\alpha/2}) = \P\left(W - \frac{\theta_*-\theta_0}{\hat \se} >
+    z_{\alpha/2} - \frac{\theta_* - \theta_0}{\hat \se}\right)
+    = 1 - \Phi\left(z_{\alpha/2} - \frac{\theta_*-\theta_0}{\hat \se}\right).
+\]
+On the other hand,
+\[
+    \P(W<-z_{\alpha/2}) = \P\left(W - \frac{\theta_*-\theta_0}{\hat \se} <
+    -z_{\alpha/2} - \frac{\theta_* - \theta_0}{\hat \se}\right)
+    = \Phi\left(-z_{\alpha/2} - \frac{\theta_* - \theta_0}{\hat \se}\right).
+\]
+Adding these two expressions gives the correct expression for the probability
+that we reject the null hypothesis. I.e. the sum of the two expressions is
+the power.
+
+
 \item[(5)]
 \begin{enumerate}[(a)]
 \item

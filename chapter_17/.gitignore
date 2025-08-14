@@ -1,0 +1,12 @@
+.ipynb_checkpoints
+*.txt
+*.dat
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.tex
+*.pdf
+*.ipynb

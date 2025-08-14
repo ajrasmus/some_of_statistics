@@ -50,21 +50,95 @@
 
 \begin{enumerate}
 
+\item[(1)] Write $\mathbf X$ for the vector of $X_i$'s, $\mathbf 1$ for the vector
+of $1$'s of length $n$, $\hat{\mathbf X}$ for the matrix
+$\begin{pmatrix}\mathbf 1 & \mathbf X\end{pmatrix}$, $\mathbf Y$ for the vector
+of $Y_i$'s, and $\beta = (\beta_0,\beta_1)^T$. We are trying to minimize
+the quantity
+\[  f(\beta_0,\beta_1) =
+    \|\mathbf Y - \hat{\mathbf X}\beta\|^2 =
+    (\mathbf Y - \hat{\mathbf X}\beta)^T
+    (\mathbf Y - \hat{\mathbf X}\beta) =
+    \mathbf Y^T \mathbf Y - \mathbf Y^T \hat{\mathbf X}\beta
+    - \beta^T \hat{\mathbf X}^T \mathbf Y
+    + \beta^T \hat{\mathbf X}^T \hat{\mathbf X}\beta.
+\]
+The function $f$ of $\beta_0$ and $\beta_1$ is convex and smooth with a
+single local minimum,
+which is the global minimum. The term $\mathbf Y^T \hat{\mathbf X}\beta$ is equal
+to
+\[
+    Y_1 (\beta_0 + \beta_1 X_1) + \ldots + Y_n(\beta_0 +\beta_1X_n).
+\]
+Hence its derivative with respect to $\beta_0$ is $\mathbf Y \cdot \mathbf 1$
+and its derivative with respect to $\beta_1$ is $\mathbf Y \cdot \mathbf X$.
+These turn out to be the same as the derivatives for the term
+$\beta^T \hat{\mathbf X}^T \mathbf Y$. Finally, the term
+$\beta^T \hat{\mathbf X}^T \hat{\mathbf X}\beta$ is equal to
+\[
+    n\beta_0^2 + 2(\mathbf 1 \cdot \mathbf X)\beta_0 \beta_1 +
+    (\mathbf X \cdot \mathbf X)\beta_1^2.
+\]
+The derivatives of this term with respect to $\beta_0$ and $\beta_1$ are
+$2n\beta_0 + 2(\mathbf 1 \cdot \mathbf X) \beta_1$ and
+$2(\mathbf 1 \cdot \mathbf X)\beta_0+ 2(\mathbf X \cdot \mathbf X)\beta_1$.
+
+Finally, setting the derivatives with respect to $\beta_0$ and $\beta_1$ equal
+to zero yields
+\[
+    n\beta_0 + (\mathbf X\cdot \mathbf 1)\beta_1 = \mathbf Y \cdot \mathbf 1
+    \text{ and }
+    (\mathbf 1 \cdot \mathbf X)\beta_0+ (\mathbf X \cdot \mathbf X)\beta_1 =
+    \mathbf Y \cdot \mathbf X.
+\]
+In matrix form this is
+\[
+    \begin{pmatrix}
+        \mathbf 1 \cdot \mathbf 1 & \mathbf X \cdot \mathbf 1 \\
+        \mathbf 1 \cdot \mathbf X & \mathbf X \cdot \mathbf X
+    \end{pmatrix}
+    \begin{pmatrix}
+        \beta_0 \\ \beta_1
+    \end{pmatrix} =
+    \begin{pmatrix}
+    \mathbf Y\cdot \mathbf 1 \\ \mathbf Y\cdot \mathbf X
+    \end{pmatrix}.
+\]
+Set $D = n(\mathbf X\cdot \mathbf X) - (\mathbf X \cdot \mathbf 1)^2$ as the
+determinant of the matrix on the left. Verify that
+\[
+    D=n\sum X_i^2 - n^2\left(\sum X_i\right)^2 = n\sum(X_i - \bar X_n)^2.
+\]
+Then we have
+\[
+    \beta_1 = \frac{1}{D}((-\mathbf X \cdot 1)(\mathbf Y \cdot \mathbf 1)
+    + (\mathbf 1 \cdot \mathbf 1)(\mathbf Y \cdot \mathbf X)) =
+    \frac{1}{D}\left(-n^2\bar X_n \bar Y_n + n\sum X_iY_i\right)
+\]
+which is equal to
+$\frac{n}{D}\sum(X_i - \bar X_n)(Y_i - \bar Y_n)$.
+Canceling a factor of $n$ in the numerator and denominator then yields the desired
+expression for $\hat \beta_1$.
+
+The first equation above,
+$n\beta_0 + (\mathbf X\cdot \mathbf 1)\beta_1 = \mathbf Y \cdot \mathbf 1$ yields
+$n\beta_0 + n\bar{\mathbf X}\beta_1 = n\bar{\mathbf Y}$, as desired.
+
 \item[(2)]
 We have
 \[
-\hat \beta_1 = \frac{(X^n - \overline{X_n}1^n)^T
-(Y^n - \overline{Y_n}1^n)}{(X^n - \overline{X_n}1^n)^T
-(X^n - \overline{X_n}1^n)}
+\hat \beta_1 = \frac{(\mathbf X - \overline{X_n}\mathbf 1)^T
+(\mathbf Y - \overline{Y_n}\mathbf 1)}{(\mathbf X - \overline{X_n}\mathbf 1)^T
+(\mathbf X - \overline{X_n}\mathbf 1)}
 \]
-where $1^n$ is the vector of all 1's, $X^n=(X_1,\ldots,X_n)^T$,
-and $Y^n=(Y_1,\ldots,Y_n)^T$. Hence, $\V(\hat \beta_1)$ is equal to
+where $\mathbf 1$ is the vector of all 1's, $\mathbf X=(X_1,\ldots,X_n)^T$,
+and $\mathbf Y=(Y_1,\ldots,Y_n)^T$. Hence, $\V(\hat \beta_1)$ is equal to
 \[
-\frac{1}{(X^n - \overline{X_n}1^n)^T
-(X^n - \overline{X_n}1^n)}
-(X^n - \overline{X_n}1^n)^T \Sigma (X^n - \overline{X_n}1^n)
+\frac{1}{(\mathbf X - \overline{X_n}\mathbf 1)^T
+(\mathbf X - \overline{X_n}\mathbf 1)}
+(\mathbf X - \overline{X_n}\mathbf 1)^T \Sigma (\mathbf X - \overline{X_n}\mathbf 1)
 \]
-where $\Sigma$ is the covariance matrix of $Y^n - \overline{Y_n} 1^n$.
+where $\Sigma$ is the covariance matrix of $\mathbf Y - \overline{Y_n} \mathbf 1$.
 Let's compute $\Sigma$.
 
 We have $\V(Y_i - \overline{Y_n})=
@@ -155,23 +229,28 @@ is convex with a single local minimum. We have
 \]
 Setting this equal to zero and solving for $\hat\beta$ yields
 \[
-\hat\beta = \frac{\sum X_iY_i}{\sum X_i^2} = \frac{X^n \cdot Y^n}
-{X^n \cdot X^n}.
+\hat\beta = \frac{\sum X_iY_i}{\sum X_i^2} = \frac{\mathbf X \cdot \mathbf Y}
+{\mathbf X \cdot \mathbf X}.
 \]
-where $X^n = (X_1,\ldots,X_n)^T$ and similarly for $Y^n$. Considering
-$X^n$ to be constant, $\V(\hat \beta) =
-\frac{1}{(X^n \cdot X^n)^2} (X^n)^T \Sigma (X^n)$ where $\Sigma$ is the covariance
-matrix of $Y^n$. As in the previous exercise, $\Cov(Y_i,Y_j)=\sigma^2 \delta_{ij}$
+where $\mathbf X = (X_1,\ldots,X_n)^T$ and similarly for $\mathbf Y$. Considering
+$\mathbf X$ to be constant, $\V(\hat \beta) =
+\frac{1}{(\mathbf X \cdot \mathbf X)^2} (\mathbf X)^T \Sigma (\mathbf X)$
+where $\Sigma$ is the covariance
+matrix of $\mathbf Y$. As in the previous exercise,
+$\Cov(Y_i,Y_j)=\sigma^2 \delta_{ij}$
 where $\delta_{ij}$ is the Dirac delta. So $\Sigma=\sigma^2 I$ where $I$ is the
 $n\times n$ identity matrix and
 \[
-\V(\hat\beta) = \frac{\sigma^2 X^n \cdot X^n}{(X^n \cdot X^n)^2}
+\V(\hat\beta) = \frac{\sigma^2 \mathbf X \cdot \mathbf X}
+{(\mathbf X \cdot \mathbf X)^2}
 = \frac{\sigma^2}{\sum X_i^2}.
 \]
 
 As long as $\sum X_i^2 \to \infty$ we have $\E(\hat \beta)\to \beta$ and
 $\V(\hat \beta)\to 0$. Thus $\hat \beta$ converges to $\beta$ in quadratic mean
 and therefore also in probability (see e.g. exercise 5.2).
+
+\item[(4)] .....
 
 \item[(6)]
 See the Jupyter Notebook
@@ -193,7 +272,7 @@ Mallow's $C_p$ statistic is
 \hat R_{\text{tr}}(S) + 2 |S| \sigma^2 = \sum_{i=1}^n (Y_i - (X \hat \beta)_i)^2 +
 2 |S|\sigma^2.
 \]
-Thus, up to a adding a constant to $\text{AIC}$, which doesn't affect where the maximum
+Thus, up to adding a constant to $\text{AIC}$, which doesn't affect where the maximum
 $\text{AIC}$ is achieved, we have $C_p = - 2\sigma^2 \text{AIC}$. So the $\hat \beta$
 which maximizes $\text{AIC}$ is the same as the $\hat \beta$ which minimizes $C_p$.
 
