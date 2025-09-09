@@ -1,0 +1,210 @@
+\documentclass[10pt]{article}
+
+\usepackage{amssymb, amsfonts, amsmath, amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[margin=1.00 in]{geometry}
+\usepackage{enumerate}
+\usepackage{harpoon}
+\usepackage{nicefrac}
+\usepackage{tikz, pgfplots}
+\usepackage{xypic}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage{systeme}
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\footnotesize \thepage}           % page number in "outer" position of footer line
+
+\pgfplotsset{compat=newest}
+
+%\setlength\parindent{0pt}%removes indents from entire file
+
+\newtheorem*{sol}{Solution}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Unif}{\operatorname{Uniform}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Binom}{\operatorname{Binomial}}
+\newcommand{\Beta}{\operatorname{Binomial}}
+\newcommand{\Poiss}{\operatorname{Poisson}}
+\newcommand{\Gamm}{\operatorname{Gamma}}
+\newcommand{\se}{\operatorname{se}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ol}{\overline}
+
+\begin{document}
+
+\noindent \large{Solutions to selected exercises from Chapter 17 of
+\emph{Wasserman --- All of Statistics}}
+
+\begin{enumerate}[(1)]
+\item[(1)] We have
+\[
+    f_{X,Y|Z}(x,y|z) = f_{X|Z}(x|z)f_{Y|Z}(y|z)
+\]
+if and only if
+\[
+    \frac{f_{X,Y,Z}(x,y,z)}{f_Z(z)} = \frac{f_{Y,Z}(y,z)}{f_Z(z)} f_{X|Z}(x|z)
+\]
+if and only if
+\[
+    f_{X|Y,Z}(x|y,z) = \frac{f_{X,Y,Z}(x,y,z)}{f_{Y,Z}(y,z)}=f_{X|Z}(x|z).
+\]
+
+\item[(2)]
+The first implication, $X\amalg Y | Z \implies Y\amalg X|Z$, is clear.
+
+For the second implication, if $X\amalg Y | Z$ then
+\[
+    \P(U \leq u | Y=y,Z=z) = \P(X\leq h^{-1}(u)|Y=y,Z=z)=
+    \P(X\leq h^{-1}(u)|Z=z)
+\]
+which is finally equal to $\P(U\leq u | Z=z)$. Taking derivatives with
+respect to $u$ yields $f(u|y,z)=f(u|z)$.
+
+For the third implication, Consider $x,y,z,$ and $u=h(x')$. Then
+\[
+    \P(X\leq x, Y\leq y | Z = z, U=u) = \P(X\leq x, Y \leq y | Z=z, X=x').
+\]
+If $x'\leq x$, then $\P(X\leq x|X=x')=1$ and the above conditional probability is
+\[
+    \P(Y\leq y | Z=z, U=u) = \P(Y\leq y | Z=z, U=u) \P(X\leq x|Z=z, U=u).
+\]
+If $x'>x$ then $\P(X\leq x | X=x')=0$ and the above conditional probability is
+\[
+    0 = \P(Y\leq y|Z=z, U=u) \P(X\leq x|Z=z, U=u).
+\]
+In any case, taking the mixed second partial derivative yields that
+\[
+    f(x,y|z,u)=f(x|z,u)f(y|z,u),
+\]
+as desired.
+
+For the fourth implication,
+\[
+    f(x|w,y,z) = \frac{f(x,w,y,z)}{f(w,y,z)} = \frac{f(x,w,y,z)}{f(y,z)}
+    \frac{f(y,z)}{f(w,y,z)} = \frac{f(x,w|y,z)}{f(w|y,z)}.
+\]
+By (17.1), this is equal to
+\[
+    \frac{f(x|y,z)f(w|y,z)}{f(w|y,z)}=f(x|y,z).
+\]
+Finally, by (17.2) this is equal to $f(x|z)$. By (17.2), this shows that
+$X\amalg (W,Y)|Z$, as desired.
+
+For the last implication, we have
+\[
+    f(x|z) = f(x|y,z) = f(x|y).
+\]
+This shows that $f(x|z)$ is independent of $z$, i.e. $X\amalg Z$. By symmetry,
+$X\amalg Y$. Thus,
+\[
+    \frac{f(x,y,z)}{f(y,z)} = f(x|y,z) = f(x|z) = f(x) \text{ so }
+    f(x,y,z) = f(x)f(y,z),
+\]
+as desired.
+
+\item[(3)]
+\begin{enumerate}
+\item The probability that $Z=0$ is $0.5$ and the probability that $Z=1$
+is $0.5$. Therefore the distribution $f(x,y|0)=f(x,y,0)/0.5$ is given by
+
+\begin{center}
+\begin{tabular}{l | l | l}
+& $Y=0$ & $Y=1$ \\
+\hline
+\hline
+$X=0$ & $0.81$ & $0.09$ \\
+$X=1$ & $0.09$ & $0.01$
+\end{tabular}.
+\end{center}
+
+Similarly, the distribution $f(x,y|1)$ is given by
+
+\begin{center}
+\begin{tabular}{l | l | l}
+& $Y=0$ & $Y=1$ \\
+\hline
+\hline
+$X=0$ & $0.25$ & $0.25$ \\
+$X=1$ & $0.25$ & $0.25$
+\end{tabular}.
+\end{center}
+
+\item Let's calculate the distribution $f_{X|Z}(x|z)$. If $Z=0$ then $X=0$ with
+probability $0.45$ and $X=1$ with probability $0.05$. The conditional
+distribution is $f_{X|Z}(0|0)=0.9$ and $f_{X|Z}(1|0)=0.1$. The conditional
+distribution if $Z=1$ is $f_{X|Z}(0|1)=0.5$ and $f_{X|Z}(1|1)=0.5$.
+
+Now let's calculate $f_{Y|Z}(y|z)$. We have $f_{Y|Z}(0|0)=0.9,
+f_{Y|Z}(1|0)=0.1, f_{Y|Z}(0|1)=0.5, f_{Y|Z}(1|1)=0.5$.
+
+Finally then, the fact that $X\amalg Y|Z$ follows from the calculations
+\[
+    \begin{pmatrix}0.9 \\ 0.1\end{pmatrix}
+    \begin{pmatrix}0.9 & 0.1\end{pmatrix}
+    =\begin{pmatrix} 0.81 & 0.09 \\ 0.09 & 0.01\end{pmatrix}
+\]
+for the case $Z=0$ and
+\[
+    \begin{pmatrix}0.5 \\ 0.5\end{pmatrix}
+    \begin{pmatrix}0.5 & 0.5\end{pmatrix}
+    =\begin{pmatrix} 0.25 & 0.25 \\ 0.25 & 0.25\end{pmatrix}
+\]
+for the case $Z=1$.
+
+\item The marginal distribution of $X$ and $Y$ is
+
+\begin{center}
+\begin{tabular}{l | l | l}
+& $Y=0$ & $Y=1$ \\
+\hline
+\hline
+$X=0$ & $0.53$ & $0.17$ \\
+$X=1$ & $0.17$ & $0.13$
+\end{tabular}.
+\end{center}
+
+\item Clearly $X$ and $Y$ are not independent, as
+$f_{X,Y}(x|0)\neq f_{X,Y}(x|1)$.
+\end{enumerate}
+
+\item[(4)] In the upper left graph we have $f(x,y,z)=f(z|y)f(y|x)f(x)$.
+Thus,
+\[
+    f(x,z|y)f(y) = f(z|y)f(y|x)f(x) \text{ and }
+    f(x,z|y)=f(z|y) \frac{f(y|x)f(x)}{f(y)}.
+\]
+By Bayes's rule for PDF's we have $f(x,z|y)=f(z|y)f(x|y)$, as desired.
+
+The upper right graph is the same as the upper left up to swapping
+$X$ and $Z$. Hence by the last paragraph we again have $X\amalg Z | Y$.
+
+In the lower left graph we have $f(x,y,z)=f(x|y)f(z|y)f(y)$. Dividing
+both sides by $f(y)$ yields $f(x,z|y)=f(x|y)f(z|y)$, as desired.
+
+\item[(6)] See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_17/6.ipynb}{6.ipynb}.
+
+\item[(8)] See the Jupyter Notebook
+\href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_17/8.ipynb}{8.ipynb}.
+
+
+\end{enumerate}
+\end{document}

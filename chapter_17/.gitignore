@@ -7,6 +7,3 @@
 *.log
 *.out
 *.synctex.gz
-*.tex
-*.pdf
-*.ipynb
