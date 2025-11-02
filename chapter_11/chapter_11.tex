@@ -130,6 +130,63 @@ See the Jupyter Notebook
 See the Jupyter Notebook
 \href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_11/5.ipynb}{5.ipynb}.
 
+\item[(6)]
+\begin{enumerate}
+    \item We have
+        \[
+            f(\lambda|x^n) \propto f(\lambda)\mathcal L_n(\lambda) \propto
+            \lambda^{\alpha-1}e^{-\lambda/\beta} \prod_{i=1}^n e^{-\lambda}
+            \frac{\lambda^{x_i}}{x_i!}
+            \propto \lambda^{\alpha+\sum x_i-1}e^{-\lambda/\beta-n\lambda}.
+        \]
+        Thus,
+
+        \[
+            \lambda|x^n \sim
+            \Gamma\left(\alpha + \sum x_i,\frac{1}{n+\frac{1}{\beta}}\right).
+        \]
+        The posterior mean is the product of the two parameters:
+        \[
+            \bar \lambda = \frac{\alpha +\sum x_i}{n+\frac{1}{\beta}}.
+        \]
+    \item We have
+    \[
+        \log(f(x;\lambda)) = -\lambda + x\log \lambda - \log(x!).
+    \]
+    Therefore
+    \[
+        \frac{\partial}{\partial \lambda} \log(f(x;\lambda)) =
+        -1 +\frac{x}{\lambda}
+        \text{ and }
+        \frac{\partial^2}{\partial \lambda^2} \log(f(x;\lambda)) =
+        -\frac{x}{\lambda^2}.
+    \]
+    By Theorem 9.17, we have
+    \[
+        I(\theta) =
+        -E\left(-\frac{X}{\lambda^2}\right)
+        =\sum_{x=0}^\infty e^{-\lambda} \frac{\lambda^x x}{x!\lambda^2}
+        =\frac{1}{\lambda}\sum_{x=1}^\infty e^{-\lambda}\frac{\lambda^{x-1}}{(x-1)!}
+        =\frac{1}{\lambda}.
+    \]
+    Therefore the Jeffreys' prior is $\frac{1}{\sqrt{\lambda}}$. This is an
+    improper prior since the integral of $\lambda^{-1/2}$ is infinite.
+
+    The posterior with respect to the Jeffreys' prior is
+    \[
+        f(\lambda|x^n)
+        \propto \lambda^{-1/2} \prod_{i=1}^n
+        e^{-\lambda} \frac{\lambda^{x_i}}{x_i!}
+        \propto \lambda^{-1/2}e^{-n\lambda} \lambda^{\sum x_i}
+        =\lambda^{\sum x_i +1/2-1}e^{-n\lambda}.
+    \]
+    Therefore
+    \[
+        \lambda|x^n \sim \Gamma\left(\sum x_i + \frac{1}{2}, \frac{1}{n}\right).
+    \]
+
+\end{enumerate}
+
 \item[(8)]
 See the Jupyter Notebook
 \href{https://github.com/ajrasmus/some_of_statistics/blob/main/chapter_11/8.ipynb}{8.ipynb}.
